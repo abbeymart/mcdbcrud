@@ -1,6 +1,6 @@
 // @Author: abbeymart | Abi Akindele | @Created: 2020-12-28 | @Updated: 2020-12-28
 // @Company: mConnect.biz | @License: MIT
-// @Description: test-cases data
+// @Description: test-cases data: for get, delete and save record(s)
 
 package mcdbcrud
 
@@ -21,24 +21,16 @@ type Audit struct {
 	LogAt         time.Time   `json:"logAt" db:"log_at"`
 }
 
-type Group struct {
-	BaseModelType
-	Name string `json:"name" gorm:"unique" db:"name"`
+type AuditPtr struct {
+	Id            string      `json:"id" db:"id"`
+	TableName     string      `json:"tableName" db:"table_name"`
+	LogRecords    interface{} `json:"logRecords" db:"log_records"`
+	NewLogRecords interface{} `json:"newLogRecords" db:"new_log_records"`
+	LogType       string      `json:"logType" db:"log_type"`
+	LogBy         *string     `json:"logBy" db:"log_by"`
+	LogAt         time.Time   `json:"logAt" db:"log_at"`
 }
 
-type Category struct {
-	BaseModelType
-	Name      string  `json:"name"  db:"name"`
-	Path      string  `json:"path" db:"path"`
-	Priority  uint    `json:"priority" db:"priority"`
-	ParentId  *string `json:"parentId" db:"parent_id"`
-	GroupId   string  `json:"groupId" db:"group_id"`
-	GroupName string  `json:"groupName" db:"group_name"`
-	IconStyle string  `json:"iconStyle" db:"icon_style"`
-}
-
-const GroupTable = "groups"
-const CategoryTable = "categories"
 const AuditTable = "audits"
 const GetTable = "audits_get"
 const DeleteTable = "audits_delete"
@@ -46,7 +38,6 @@ const DeleteAllTable = "audits_delete_all"
 const UpdateTable = "audits_update"
 
 const UserId = "085f48c5-8763-4e22-a1c6-ac1a68ba07de" // TODO: review/update
-const UId = "faea411c-e82d-454f-8ee7-574c4e753d06"
 
 var UserInfo = map[string]interface{}{
 	"userId":    "085f48c5-8763-4e22-a1c6-ac1a68ba07de",
@@ -117,6 +108,7 @@ var LogRecords2 = ActionParamType{
 	"priority": 1,
 	"cost":     10000.00,
 }
+
 var NewLogRecords2 = ActionParamType{
 	"name":     "Ola",
 	"desc":     "Testing only - 2 - updated",
@@ -126,25 +118,6 @@ var NewLogRecords2 = ActionParamType{
 }
 
 // create record(s)
-
-var GroupCreateRec1 = ActionParamType{
-	"name": "Location",
-	"desc": "Location group",
-}
-var GroupCreateRec2 = ActionParamType{
-	"name": "Address",
-	"desc": "Address group",
-}
-var GroupUpdateRec1 = ActionParamType{
-	"id":   "tbd",
-	"name": "Location",
-	"desc": "location group - updated",
-}
-var GroupUpdateRec2 = ActionParamType{
-	"id":   "tbd",
-	"name": "Address",
-	"desc": "address group - updated",
-}
 
 var LogRecs, _ = json.Marshal(LogRecords)
 var NewLogRecs, _ = json.Marshal(NewLogRecords)
@@ -183,14 +156,7 @@ var AuditUpdateRec2 = ActionParamType{
 	"newLogRecords": string(NewLogRecs2),
 	"logType":       UpdateTask,
 }
-var GroupCreateActionParams = ActionParamsType{
-	GroupCreateRec1,
-	GroupCreateRec2,
-}
-var GroupUpdateActionParams = ActionParamsType{
-	GroupUpdateRec1,
-	GroupUpdateRec2,
-}
+
 var AuditCreateActionParams = ActionParamsType{
 	AuditCreateRec1,
 	AuditCreateRec2,
@@ -202,15 +168,6 @@ var AuditUpdateActionParams = ActionParamsType{
 
 // TODO: update and delete params, by ids / queryParams
 
-var GroupUpdateRecordById = ActionParamType{
-	"name": "Location",
-	"desc": "updated-by-id",
-}
-var GroupUpdateRecordByParam = ActionParamType{
-	"name": "Address",
-	"desc": "updated-by-param",
-}
-
 var AuditUpdateRecordById = ActionParamType{
 	"id":            "03012156-19a4-43f9-b8ee-c1e9dd5d19b8",
 	"tableName":     "groups",
@@ -219,15 +176,6 @@ var AuditUpdateRecordById = ActionParamType{
 	"logRecords":    string(LogRecs),
 	"newLogRecords": string(NewLogRecs),
 	"logType":       DeleteTask,
-}
-var AuditUpdateRecordByIds = ActionParamType{
-	"id":            "be6b3f55-1724-4811-a23c-8ea481558f25",
-	"tableName":     "users",
-	"logAt":         time.Now(),
-	"logBy":         UserId,
-	"logRecords":    string(LogRecs),
-	"newLogRecords": string(NewLogRecs),
-	"logType":       CreateTask,
 }
 var AuditUpdateRecordByParam = ActionParamType{
 	"id":            "03012156-19a4-43f9-b8ee-c1e9dd5d19b8",
@@ -240,12 +188,6 @@ var AuditUpdateRecordByParam = ActionParamType{
 }
 
 // GetIds: for get-records by ids & params | TODO: update ids after create
-
-var UpdateGroupById = "6900d9f9-2ceb-450f-9a9e-527eb66c962f"
-var UpdateGroupByIds = []string{"6900d9f9-2ceb-450f-9a9e-527eb66c962f", "122d0f0e-3111-41a5-9103-24fa81004550"} // TODO: updated ids, after create-task
-var UpdateGroupByParams = QueryParamType{
-	"name": "Location",
-}
 
 var GetAuditById = "bd8f5d8a-7455-47cf-9bbd-f48f3ef2119c"
 var GetAuditByIds = []string{"bd8f5d8a-7455-47cf-9bbd-f48f3ef2119c", "db26f25e-6a7a-4c96-9455-283ab34c8791"}

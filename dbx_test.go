@@ -26,7 +26,6 @@ func TestDbx(t *testing.T) {
 			dbc, err := myDb.OpenDbx()
 			fmt.Printf("pg-dbc: %v\n", dbc)
 			defer myDb.CloseDbx()
-			fmt.Println(dbc)
 			fmt.Println("*****************************************")
 			mctest.AssertEquals(t, err, nil, "response-code should be: nil")
 		},
@@ -36,8 +35,8 @@ func TestDbx(t *testing.T) {
 		Name: "should successfully connect to SQLite3 database",
 		TestFunc: func() {
 			dbc2, err := sqliteDb.OpenDbx()
+			fmt.Printf("sqlite-dbc: %v\n", dbc2)
 			defer sqliteDb.CloseDbx()
-			fmt.Println(dbc2)
 			mctest.AssertEquals(t, err, nil, "response-code should be: nil")
 		},
 	})

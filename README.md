@@ -1,5 +1,4 @@
-# mccrud | github.com/abbeymart/mccrud
+# mcdbcrud | github.com/abbeymart/mcdbcrud
 
-- CRUD operations package for RDBMS in Go - PostgreSQL and SQLite[TBD]
-- Consideration/Optional: add mongoDB package features, as required
+- CRUD operations package for RDBMS in Go - PostgreSQL [and MySQL and SQLite - work-in-progress]
 - See the test files for different test cases / scenarios and usage

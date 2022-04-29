@@ -349,6 +349,7 @@ func (crud *Crud) UpdateByParam(rec ActionParamType) mcresponse.ResponseMessage 
 	}
 	// create from updatedRecs (actionParams)
 	updateQueryRes := ComputeUpdateQueryByParam(crud.TableName, rec, crud.QueryParams)
+	//fmt.Printf("\n\nUpdate-by-Params-query-object: %#v\n\n", updateQueryRes)
 	if !updateQueryRes.Ok {
 		return mcresponse.GetResMessage("updateError", mcresponse.ResponseMessageOptions{
 			Message: updateQueryRes.Message,

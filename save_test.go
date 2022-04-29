@@ -28,18 +28,19 @@ func TestSave(t *testing.T) {
 	// audit-log instance
 	mcLog := NewAuditLogx(dbc, AuditTable)
 	// group-table-records
-	audit := Audit{}
+	model := Audit{}
+	modelPtr := AuditPtr{}
 	crudParams := CrudParamsType{
 		AppDb:        dbc,
-		ModelRef:     audit,
-		ModelPointer: &audit,
+		ModelRef:     model,
+		ModelPointer: &modelPtr,
 		TableName:    "",
 		UserInfo:     TestUserInfo,
 		ActionParams: nil,
 		RecordIds:    []string{},
 		QueryParams:  QueryParamType{},
 	}
-	var crud = NewCrud(crudParams, CrudParamOptions)
+	crud := NewCrud(crudParams, CrudParamOptions)
 
 	mctest.McTest(mctest.OptionValue{
 		Name: "should connect to the Audit-DB and return an instance object:",

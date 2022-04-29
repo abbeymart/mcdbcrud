@@ -153,51 +153,58 @@ func (crud *Crud) SaveRecord() mcresponse.ResponseMessage {
 	var (
 		createRecs = ActionParamsType{} // records without id field-value
 		updateRecs = ActionParamsType{} // records with id field-value
-		recIds     []string             // capture recordIds for separate/multiple updates
 	)
-	// cases - actionParams.length === 1 OR > 1
+	// cases - actionParams.length === 1 record OR > 1 records
 	if len(crud.ActionParams) == 1 {
 		rec := crud.ActionParams[0]
-		// determine if record exists (update), cast id into string or new (create)
+		// determine if record exists (update, cast id into string) or new (create)
 		recIdStr := ""
 		idOk := false
 		recId, ok := rec["id"]
 		if ok {
 			recIdStr, idOk = recId.(string)
 		}
+		// exclude id from record, if present
+		mapRec := ExcludeFieldFromMapRecord(rec, "id")
 		if len(crud.RecordIds) > 0 || len(crud.QueryParams) > 0 {
 			if crud.ModelOptions.ActorStamp {
-				rec["updatedBy"] = crud.UserInfo.UserId
+				mapRec["updatedBy"] = crud.UserInfo.UserId
 			}
 			if crud.ModelOptions.TimeStamp {
-				rec["updatedAt"] = time.Now()
+				mapRec["updatedAt"] = time.Now()
 			}
-			// exclude id from record, if present
-			mapRec := ExcludeEmptyIdFromMapRecord(rec)
 			updateRecs = append(updateRecs, mapRec)
 		} else if idOk && recIdStr != "" {
+			// reset recordIds and query-params for update-task
+			crud.RecordIds = []string{}
+			crud.QueryParams = QueryParamType{}
 			if crud.ModelOptions.ActorStamp {
-				rec["updatedBy"] = crud.UserInfo.UserId
+				mapRec["updatedBy"] = crud.UserInfo.UserId
 			}
 			if crud.ModelOptions.TimeStamp {
-				rec["updatedAt"] = time.Now()
+				mapRec["updatedAt"] = time.Now()
 			}
-			recIds = append(recIds, recIdStr)
-			updateRecs = append(updateRecs, rec)
+			crud.RecordIds = append(crud.RecordIds, recIdStr)
+			updateRecs = append(updateRecs, mapRec)
 		} else {
+			// reset recordIds and query-params for create-task
+			crud.RecordIds = []string{}
+			crud.QueryParams = QueryParamType{}
 			if crud.ModelOptions.ActorStamp {
-				rec["createdBy"] = crud.UserInfo.UserId
+				mapRec["createdBy"] = crud.UserInfo.UserId
 			}
 			if crud.ModelOptions.TimeStamp {
-				rec["createdAt"] = time.Now()
+				mapRec["createdAt"] = time.Now()
 			}
-			// exclude id from record, if present
-			mapRec := ExcludeEmptyIdFromMapRecord(rec)
 			createRecs = append(createRecs, mapRec)
 		}
 		crud.CreateItems = createRecs
 		crud.UpdateItems = updateRecs
 	} else if len(crud.ActionParams) > 1 {
+		// reset recordIds and query-params for multiple create-update-records task
+		crud.RecordIds = []string{}
+		crud.QueryParams = QueryParamType{}
+		//var recIds []string // capture recordIds for separate/multiple updates
 		for _, rec := range crud.ActionParams {
 			// determine if record exists (update), cast id into string or new (create)
 			recIdStr := ""
@@ -213,20 +220,21 @@ func (crud *Crud) SaveRecord() mcresponse.ResponseMessage {
 				if crud.ModelOptions.TimeStamp {
 					rec["updatedAt"] = time.Now()
 				}
-				recIds = append(recIds, recIdStr)
+				crud.RecordIds = append(crud.RecordIds, recIdStr)
 				updateRecs = append(updateRecs, rec)
 			} else {
+				// exclude id from record, if present
+				mapRec := ExcludeFieldFromMapRecord(rec, "id")
 				if crud.ModelOptions.ActorStamp {
-					rec["createdBy"] = crud.UserInfo.UserId
+					mapRec["createdBy"] = crud.UserInfo.UserId
 				}
 				if crud.ModelOptions.TimeStamp {
-					rec["createdAt"] = time.Now()
+					mapRec["createdAt"] = time.Now()
 				}
-				// exclude id from record, if present
-				mapRec := ExcludeEmptyIdFromMapRecord(rec)
 				createRecs = append(createRecs, mapRec)
 			}
 		}
+		//crud.RecordIds = recIds
 		crud.CreateItems = createRecs
 		crud.UpdateItems = updateRecs
 	}
@@ -295,8 +303,6 @@ func (crud *Crud) SaveRecord() mcresponse.ResponseMessage {
 				return crud.UpdateByParam(updateRecs[0])
 			}
 		}
-		// update multiple records
-		crud.RecordIds = recIds
 		// check task-permission
 		if crud.CheckAccess {
 			accessRes := crud.TaskPermissionById(crud.TaskType)

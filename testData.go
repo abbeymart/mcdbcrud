@@ -183,7 +183,7 @@ var GetAuditByIds = []string{"7461ae6c-96e0-4b4f-974b-9a0a7f91e016", "aa9ba999-b
 var GetAuditByParams = QueryParamType{
 	"logType": "create",
 }
-var DeleteAuditById = "fe8fae8b-1d2f-4f86-9485-41eacf6e631f"
+var DeleteAuditById = "99f0f869-3c84-4a5e-83ac-3b9f893dcd60"
 var DeleteAuditByIds = []string{
 	"9e9f7733-7653-4069-9f42-dc157768a960",
 	"35304003-567f-4e25-9f1d-6483760db621",

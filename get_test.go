@@ -6,7 +6,6 @@ package mcdbcrud
 
 import (
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"github.com/abbeymart/mctest"
 	"testing"
@@ -24,17 +23,18 @@ func TestGet(t *testing.T) {
 		fmt.Printf("*****db-connection-error: %v\n", err.Error())
 		return
 	}
-	audit := Audit{}
+	model := Audit{}
+	modelPtr := AuditPtr{}
 	crudParams := CrudParamsType{
 		AppDb:        dbc,
-		ModelRef:     audit,
-		ModelPointer: &audit,
+		ModelRef:     model,
+		ModelPointer: &modelPtr,
 		TableName:    GetTable,
 		UserInfo:     TestUserInfo,
 		RecordIds:    []string{},
 		QueryParams:  QueryParamType{},
 	}
-	var crud = NewCrud(crudParams, CrudParamOptions)
+	crud := NewCrud(crudParams, CrudParamOptions)
 
 	mctest.McTest(mctest.OptionValue{
 		Name: "should get records by Id and return success:",
@@ -43,15 +43,15 @@ func TestGet(t *testing.T) {
 			res := crud.GetRecord()
 			fmt.Printf("get-by-id-response: %#v\n\n", res)
 			value, _ := res.Value.(GetResultType)
-			var logRecords interface{}
 			logRecs := value.Records[0]["logRecords"]
-			jsonVal, _ := json.Marshal(logRecs)
-			_ = json.Unmarshal(jsonVal, &logRecords)
+			//var logRecords interface{}
+			//jsonVal, _ := json.Marshal(logRecs)
+			//_ = json.Unmarshal(jsonVal, &logRecords)
 			strVal, _ := logRecs.(string)
 			decoded, _ := base64.StdEncoding.DecodeString(strVal)
-			fmt.Printf("json-records: %#v\n\n %#v \n\n", logRecs, logRecords)
+			fmt.Printf("json-records: %#v\n\n", logRecs)
 			fmt.Printf("decoded-json-records: %#v\n\n", string(decoded))
-			fmt.Printf("get-by-id-response, code:recsCount %v:%v :\n", res.Code, value.Stats.RecordsCount)
+			//fmt.Printf("get-by-id-response, code:recsCount %v:%v :\n", res.Code, value.Stats.RecordsCount)
 			mctest.AssertEquals(t, res.Code, "success", "get-task should return code: success")
 			mctest.AssertEquals(t, value.Stats.RecordsCount, 1, "get-task-count should be: 1")
 			mctest.AssertEquals(t, len(value.Records), 1, "get-result-count should be: 1")

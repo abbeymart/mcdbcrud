@@ -38,7 +38,14 @@ func ComputeUpdateQuery(tableName string, actionParams ActionParamsType) MultiUp
 		return updatesErrMessage("tableName and actionParam are required for the update operation")
 	}
 	var updateQueryObjects []UpdateQueryObject
-	for _, actParam := range actionParams {
+	for _, rec := range actionParams {
+		recordId := ""
+		// set recordId
+		if rec["id"] != nil {
+			recordId = fmt.Sprintf("%v", rec["id"])
+		}
+		// exclude id from record, if present
+		actParam := ExcludeFieldFromMapRecord(rec, "id")
 		// compute update script and associated place-holder values for the actionParam/record
 		updateQuery := fmt.Sprintf("UPDATE %v SET ", tableName)
 		var fieldValues []interface{}
@@ -46,15 +53,8 @@ func ComputeUpdateQuery(tableName string, actionParams ActionParamsType) MultiUp
 		var fieldNamesUnderscore []string
 		fieldsLength := len(actParam)
 		fieldCount := 0
-		recordId := ""
 		//fmt.Printf("Field-length-start:count: %v:%v \n\n", fieldsLength, fieldCount)
 		for fieldName, fieldValue := range actParam {
-			// skip fieldName=="id"
-			if fieldName == "id" {
-				recordId = fmt.Sprintf("%v", actParam["id"])
-				fieldsLength = fieldsLength - 1
-				continue
-			}
 			fieldNameUnderScore := govalidator.CamelCaseToUnderscore(fieldName)
 			fieldNames = append(fieldNames, fieldName)
 			fieldNamesUnderscore = append(fieldNamesUnderscore, fieldNameUnderScore)
@@ -124,19 +124,16 @@ func ComputeUpdateQueryById(tableName string, actionParam ActionParamType, recor
 	if tableName == "" || len(actionParam) < 1 || actionParam == nil || recordId == "" {
 		return updateErrMessage("table-name, recordId and actionParam are required for the update operation")
 	}
+	// exclude id from record, if present
+	actParam := ExcludeFieldFromMapRecord(actionParam, "id")
 	// compute update script and associated place-holder values for the actionParam/record
 	updateQuery := fmt.Sprintf("UPDATE %v SET ", tableName)
 	var fieldValues []interface{}
 	var fieldNames []string
 	var fieldNamesUnderscore []string
-	fieldsLength := len(actionParam)
+	fieldsLength := len(actParam)
 	fieldCount := 0
-	for fieldName, fieldValue := range actionParam {
-		// skip fieldName=="id"
-		if fieldName == "id" {
-			fieldsLength = fieldsLength - 1
-			continue
-		}
+	for fieldName, fieldValue := range actParam {
 		fieldNameUnderScore := govalidator.CamelCaseToUnderscore(fieldName)
 		fieldNames = append(fieldNames, fieldName)
 		fieldNamesUnderscore = append(fieldNamesUnderscore, fieldNameUnderScore)
@@ -210,20 +207,17 @@ func ComputeUpdateQueryByIds(tableName string, actionParam ActionParamType, reco
 			whereIds += ", "
 		}
 	}
+	// exclude id from record, if present
+	actParam := ExcludeFieldFromMapRecord(actionParam, "id")
 	whereQuery := fmt.Sprintf(" WHERE id IN(%v)", whereIds)
 	// compute update script and associated place-holder values for the actionParam/record
 	updateQuery := fmt.Sprintf("UPDATE %v SET ", tableName)
 	var fieldValues []interface{}
 	var fieldNames []string
 	var fieldNamesUnderscore []string
-	fieldsLength := len(actionParam)
+	fieldsLength := len(actParam)
 	fieldCount := 0
-	for fieldName, fieldValue := range actionParam {
-		// skip fieldName=="id"
-		if fieldName == "id" {
-			fieldsLength = fieldsLength - 1
-			continue
-		}
+	for fieldName, fieldValue := range actParam {
 		fieldNameUnderScore := govalidator.CamelCaseToUnderscore(fieldName)
 		fieldNames = append(fieldNames, fieldName)
 		fieldNamesUnderscore = append(fieldNamesUnderscore, fieldNameUnderScore)
@@ -284,20 +278,17 @@ func ComputeUpdateQueryByParam(tableName string, actionParam ActionParamType, qu
 	if tableName == "" || len(actionParam) < 1 || actionParam == nil || len(queryParam) < 1 {
 		return updateErrMessage("table-name, queryParam and actionParam are required for the update operation")
 	}
+	// exclude id from record, if present
+	actParam := ExcludeFieldFromMapRecord(actionParam, "id")
 	// compute update script and associated place-holder values for the actionParam/record
 	updateQuery := fmt.Sprintf("UPDATE %v SET ", tableName)
 	var fieldValues []interface{}
 	var fieldNames []string
 	var fieldNamesUnderscore []string
-	fieldsLength := len(actionParam)
+	fieldsLength := len(actParam)
 	fieldCount := 0
 	//fmt.Printf("Field-length-start:count: %v:%v \n\n", fieldsLength, fieldCount)
-	for fieldName, fieldValue := range actionParam {
-		// skip fieldName=="id"
-		if fieldName == "id" {
-			fieldsLength = fieldsLength - 1
-			continue
-		}
+	for fieldName, fieldValue := range actParam {
 		fieldNameUnderScore := govalidator.CamelCaseToUnderscore(fieldName)
 		fieldNames = append(fieldNames, fieldName)
 		fieldNamesUnderscore = append(fieldNamesUnderscore, fieldNameUnderScore)
@@ -332,20 +323,19 @@ func ComputeUpdateQueryByParam(tableName string, actionParam ActionParamType, qu
 
 		fieldValues = append(fieldValues, currentFieldValue)
 		updateQuery += fmt.Sprintf("%v=$%v", fieldNameUnderScore, fieldCount+1)
-		if fieldsLength > 1 && fieldCount < fieldsLength {
+		if fieldsLength > 1 && fieldCount < fieldsLength-1 {
 			updateQuery += ", "
 		}
-		// next field / current-value-placeholder position
+		// next field-count / current-value-placeholder position
 		fieldCount += 1
 	}
-	//fmt.Printf("Field-length-start:end: %v:%v \n\n", fieldsLength, fieldCount)
 	// where-query
 	whereRes := ComputeWhereQuery(queryParam, fieldCount+1)
 	if !whereRes.Ok {
 		return updateErrMessage(fmt.Sprintf("error computing where-query condition(s): %v", whereRes.Message))
 	}
 
-	updateQuery += " " + whereRes.WhereQueryObject.WhereQuery
+	updateQuery += fmt.Sprintf(" %v", whereRes.WhereQueryObject.WhereQuery)
 
 	// result
 	return UpdateQueryResult{

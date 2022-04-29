@@ -37,22 +37,10 @@ const DeleteTable = "audits_delete"
 const DeleteAllTable = "audits_delete_all"
 const UpdateTable = "audits_update"
 
-const UserId = "085f48c5-8763-4e22-a1c6-ac1a68ba07de" // TODO: review/update
-
-var UserInfo = map[string]interface{}{
-	"userId":    "085f48c5-8763-4e22-a1c6-ac1a68ba07de",
-	"loginName": "abbeymart",
-	"email":     "abbeya1@yahoo.com",
-	"language":  "en-US",
-	"firstname": "Abi",
-	"lastname":  "Akindele",
-	"token":     "",
-	"expire":    0,
-	"role":      "win-20_000_000",
-}
+const UserId = "c85509ac-7373-464d-b667-425bb59b5738" // TODO: review/update
 
 var TestUserInfo = UserInfoType{
-	UserId:    "085f48c5-8763-4e22-a1c6-ac1a68ba07de",
+	UserId:    "c85509ac-7373-464d-b667-425bb59b5738",
 	LoginName: "abbeymart",
 	Email:     "abbeya1@yahoo.com",
 	Language:  "en-US",
@@ -139,7 +127,7 @@ var AuditCreateRec2 = ActionParamType{
 	"logType":    CreateTask,
 }
 var AuditUpdateRec1 = ActionParamType{
-	"id":            "f517ef7b-5457-4f51-a905-e427465defd0",
+	"id":            "c1c3f614-b10d-40a4-9269-4e03f5fcf55e",
 	"tableName":     "todos",
 	"logAt":         time.Now(),
 	"logBy":         UserId,
@@ -147,8 +135,9 @@ var AuditUpdateRec1 = ActionParamType{
 	"newLogRecords": string(NewLogRecs),
 	"logType":       UpdateTask,
 }
+
 var AuditUpdateRec2 = ActionParamType{
-	"id":            "a66a3057-028d-4f64-aa18-05ea26b1d2dc",
+	"id":            "003c1422-c7cb-476f-b96f-9c8028e04a14",
 	"tableName":     "todos",
 	"logAt":         time.Now(),
 	"logBy":         UserId,
@@ -169,7 +158,7 @@ var AuditUpdateActionParams = ActionParamsType{
 // TODO: update and delete params, by ids / queryParams
 
 var AuditUpdateRecordById = ActionParamType{
-	"id":            "03012156-19a4-43f9-b8ee-c1e9dd5d19b8",
+	"id":            "b126f4c0-9bad-4242-bec1-4c4ab74ae481",
 	"tableName":     "groups",
 	"logAt":         time.Now(),
 	"logBy":         UserId,
@@ -178,7 +167,7 @@ var AuditUpdateRecordById = ActionParamType{
 	"logType":       DeleteTask,
 }
 var AuditUpdateRecordByParam = ActionParamType{
-	"id":            "03012156-19a4-43f9-b8ee-c1e9dd5d19b8",
+	"id":            "f380f132-422f-4cd4-82c1-07b4caf35da0",
 	"tableName":     "contacts",
 	"logAt":         time.Now(),
 	"logBy":         UserId,
@@ -189,26 +178,26 @@ var AuditUpdateRecordByParam = ActionParamType{
 
 // GetIds: for get-records by ids & params | TODO: update ids after create
 
-var GetAuditById = "bd8f5d8a-7455-47cf-9bbd-f48f3ef2119c"
-var GetAuditByIds = []string{"bd8f5d8a-7455-47cf-9bbd-f48f3ef2119c", "db26f25e-6a7a-4c96-9455-283ab34c8791"}
+var GetAuditById = "7461ae6c-96e0-4b4f-974b-9a0a7f91e016"
+var GetAuditByIds = []string{"7461ae6c-96e0-4b4f-974b-9a0a7f91e016", "aa9ba999-b138-414b-be66-9f0264e50f4a"}
 var GetAuditByParams = QueryParamType{
 	"logType": "create",
 }
 var DeleteAuditById = "fe8fae8b-1d2f-4f86-9485-41eacf6e631f"
 var DeleteAuditByIds = []string{
-	"74668767-caff-4eae-bdbd-e94b2cdf9abb",
-	"f6fe8fef-19e8-4c1d-a961-8320e9c87019",
-	"b0cd4f29-f6df-413a-8176-94ac70d94ab6",
-	"30fb20c6-9d60-4529-925e-1e61c82c1bba",
+	"9e9f7733-7653-4069-9f42-dc157768a960",
+	"35304003-567f-4e25-9f1d-6483760db621",
+	"d0a1445e-f12f-4d45-98e5-22689dec48e5",
+	"39774322-9be5-4b43-9d6e-e2ba514e0f43",
 }
 var DeleteAuditByParams = QueryParamType{
 	"logType": "read",
 }
-var UpdateAuditById = "493ab000-9797-4c43-8624-6ccf0ebb040a"
+var UpdateAuditById = "98bb024e-2b22-42b4-b379-7099166ad1c9"
 var UpdateAuditByIds = []string{
-	"b2a1dd5e-2c11-4e42-9213-5c407a0f0eb9",
-	"6eed2238-be9b-49da-9039-ad85a1f21b2f",
-	"8f7c2236-f9d8-4666-b147-a79ede723a4c",
+	"c158c19f-e396-4625-96ee-d054ef4f40a1",
+	"e34b10f9-6320-4573-96cc-2cd8c69c9a89",
+	"9b9acf43-9008-4261-9528-39f47f261adf",
 }
 var UpdateAuditByParams = QueryParamType{
 	"logType": "read",

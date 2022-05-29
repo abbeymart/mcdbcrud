@@ -533,3 +533,82 @@ func RandomNumbers(n int) string {
 	}
 	return fmt.Sprintf("%v", strings.Join(vString, ""))
 }
+
+// CheckTaskType determine/set task type based on the actionParams
+func CheckTaskType(params CrudParamsType) string {
+	taskType := ""
+	if len(params.ActionParams) > 0 {
+		actParam := params.ActionParams[0]
+		_, ok := actParam["id"]
+		if !ok {
+			if len(params.RecordIds) > 0 || len(params.QueryParams) > 0 {
+				taskType = UpdateTask
+			} else {
+				taskType = CreateTask
+			}
+		} else {
+			taskType = UpdateTask
+		}
+	}
+	return taskType
+}
+
+// ComputeAccessResValue returns the transform access-response-value of AccessResValueType
+func ComputeAccessResValue(params mcresponse.ResponseMessage) AccessResValueType {
+	pJson, _ := json.Marshal(params.Value)
+	var accessResValue AccessResValueType
+	err := json.Unmarshal(pJson, &accessResValue)
+	if err != nil {
+		return AccessResValueType{}
+	}
+	return accessResValue
+}
+
+// ValidateSubActionParams validates that subscriber-appIds includes actionParam-appId, for save - create/update tasks
+func ValidateSubActionParams(actParams ActionParamsType, subAppIds []string) bool {
+	result := false
+	for _, rec := range actParams {
+		id, idOk := rec["appId"].(string)
+		if !idOk || !ArrayStringContains(subAppIds, id) {
+			return false
+		}
+		result = true
+	}
+	return result
+}
+
+// TransformGetCrudParams compose the crud-params for read-query
+func TransformGetCrudParams(params CrudParamsType, accessRes mcresponse.ResponseMessage) CrudParamsType {
+	isAdmin := false
+	systemAdmin := false
+	userAdmin := false
+	var subAppIds []string
+	// check the subscriber-admin-access
+	if accessRes.Code == "success" {
+		subAdminValue, subAdminOk := accessRes.Value.(AccessResValueType)
+		if subAdminOk {
+			isAdmin = subAdminValue.IsAdmin
+			systemAdmin = subAdminValue.SystemAdmin
+			userAdmin = subAdminValue.UserAdmin
+			subAppIds = subAdminValue.AppIds
+		}
+	}
+	// if admin, return params, as-is
+	if isAdmin || systemAdmin || userAdmin {
+		return params
+	}
+	// if subscriber has active applications, as admin, query by subscriber-appIds
+	if len(subAppIds) > 0 {
+		params.RecordIds = []string{}
+		params.QueryParams = map[string]interface{}{
+			"appId": subAppIds,
+		}
+		return params
+	}
+	// otherwise, apply to record(s) createdBy the current user/userId only
+	params.RecordIds = []string{}
+	params.QueryParams = map[string]interface{}{
+		"createdBy": params.UserInfo.UserId,
+	}
+	return params
+}

@@ -16,23 +16,23 @@ import (
 // AccessInfoType for CheckUserAccess method value (interface{}) response,
 // and to assert returned value
 type AccessInfoType struct {
-	UserId   string
-	RoleId   string
-	RoleIds  []string
-	IsAdmin  bool
-	IsActive bool
+	UserId   string   `json:"userId"`
+	RoleId   string   `json:"roleId"`
+	RoleIds  []string `json:"roleIds"`
+	IsAdmin  bool     `json:"isAdmin"`
+	IsActive bool     `json:"isActive"`
 }
 
 // TaskPermissionType for TaskPermission method value (interface{}) response,
 // and to assert returned value
 type TaskPermissionType struct {
-	Ok             bool
-	IsAdmin        bool
-	IsActive       bool
-	UserId         string
-	RoleId         string
-	RoleIds        []string
-	OwnerPermitted bool
+	Ok             bool     `json:"ok"`
+	IsAdmin        bool     `json:"isAdmin"`
+	IsActive       bool     `json:"isActive"`
+	UserId         string   `json:"userId"`
+	RoleId         string   `json:"roleId"`
+	RoleIds        []string `json:"roleIds"`
+	OwnerPermitted bool     `json:"ownerPermitted"`
 }
 
 // TODO: extend/refactor access-control to subscribers/apps/services groups/categories

@@ -1,5 +1,11 @@
 # Historical logs
 
+## Version 0.4.1
+
+- Release date: TBD
+- refactored-method-to-pointer-struct-receiver
+
+
 ## Version 0.4.0
 
 - Release date: July 11, 2022

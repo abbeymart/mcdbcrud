@@ -6,7 +6,7 @@ package mcdbcrud
 
 import "github.com/abbeymart/mcresponse"
 
-func (crud Crud) GetStream() mcresponse.ResponseMessage {
+func (crud *Crud) GetStream() mcresponse.ResponseMessage {
 
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
 		Message: "success",

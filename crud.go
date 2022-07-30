@@ -141,7 +141,7 @@ func NewCrud(params CrudParamsType, options CrudOptionsType) (crudInstance *Crud
 }
 
 // String() method implementation for crud instance/object
-func (crud Crud) String() string {
+func (crud *Crud) String() string {
 	return fmt.Sprintf("CRUD Instance Information: %#v \n\n", crud)
 }
 

@@ -135,7 +135,7 @@ func (crud *Crud) GetById(id string) mcresponse.ResponseMessage {
 
 // GetByIds method fetches/gets/reads records that met the specified record-ids,
 // constrained by optional skip and limit parameters
-func (crud Crud) GetByIds() mcresponse.ResponseMessage {
+func (crud *Crud) GetByIds() mcresponse.ResponseMessage {
 	// check cache
 	if crud.CacheResult {
 		getCacheRes := mccache.GetHashCache(crud.TableName, crud.CacheKey)
@@ -682,7 +682,7 @@ func (crud *Crud) GetById1(id string) mcresponse.ResponseMessage {
 	})
 }
 
-func (crud Crud) GetByIds1() mcresponse.ResponseMessage {
+func (crud *Crud) GetByIds1() mcresponse.ResponseMessage {
 	// check cache
 	if crud.CacheResult {
 		getCacheRes := mccache.GetHashCache(crud.TableName, crud.CacheKey)

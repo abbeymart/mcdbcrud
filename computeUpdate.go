@@ -5,6 +5,7 @@
 package mcdbcrud
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/asaskevich/govalidator"
 	"time"
@@ -66,6 +67,13 @@ func ComputeUpdateQuery(tableName string, actionParams ActionParamsType) MultiUp
 					return updatesErrMessage(fmt.Sprintf("field_name: %v [date-type] | field_value: %v error: ", fieldName, fieldValue))
 				} else {
 					currentFieldValue = "'" + fVal.Format("2006-01-02 15:04:05.000000") + "'"
+				}
+			case map[string]interface{}:
+				if fVal, ok := fieldValue.(map[string]interface{}); !ok {
+					return updatesErrMessage(fmt.Sprintf("field_name: %v [date-type] | field_value: %v error: ", fieldName, fieldValue))
+				} else {
+					itemValue, _ := json.Marshal(fVal)
+					currentFieldValue = string(itemValue)
 				}
 			case string:
 				if fVal, ok := fieldValue.(string); !ok {
@@ -145,6 +153,13 @@ func ComputeUpdateQueryById(tableName string, actionParam ActionParamType, recor
 				return updateErrMessage(fmt.Sprintf("field_name: %v [date-type] | field_value: %v error: ", fieldName, fieldValue))
 			} else {
 				currentFieldValue = "'" + fVal.Format("2006-01-02 15:04:05.000000") + "'"
+			}
+		case map[string]interface{}:
+			if fVal, ok := fieldValue.(map[string]interface{}); !ok {
+				return updateErrMessage(fmt.Sprintf("field_name: %v [date-type] | field_value: %v error: ", fieldName, fieldValue))
+			} else {
+				itemValue, _ := json.Marshal(fVal)
+				currentFieldValue = string(itemValue)
 			}
 		case string:
 			if fVal, ok := fieldValue.(string); !ok {
@@ -230,6 +245,13 @@ func ComputeUpdateQueryByIds(tableName string, actionParam ActionParamType, reco
 			} else {
 				currentFieldValue = "'" + fVal.Format("2006-01-02 15:04:05.000000") + "'"
 			}
+		case map[string]interface{}:
+			if fVal, ok := fieldValue.(map[string]interface{}); !ok {
+				return updateErrMessage(fmt.Sprintf("field_name: %v [date-type] | field_value: %v error: ", fieldName, fieldValue))
+			} else {
+				itemValue, _ := json.Marshal(fVal)
+				currentFieldValue = string(itemValue)
+			}
 		case string:
 			if fVal, ok := fieldValue.(string); !ok {
 				return updateErrMessage(fmt.Sprintf("field_name: %v | field_value: %v error: ", fieldName, fieldValue))
@@ -300,6 +322,13 @@ func ComputeUpdateQueryByParam(tableName string, actionParam ActionParamType, qu
 				return updateErrMessage(fmt.Sprintf("field_name: %v [date-type] | field_value: %v error: ", fieldName, fieldValue))
 			} else {
 				currentFieldValue = "'" + fVal.Format("2006-01-02 15:04:05.000000") + "'"
+			}
+		case map[string]interface{}:
+			if fVal, ok := fieldValue.(map[string]interface{}); !ok {
+				return updateErrMessage(fmt.Sprintf("field_name: %v [date-type] | field_value: %v error: ", fieldName, fieldValue))
+			} else {
+				itemValue, _ := json.Marshal(fVal)
+				currentFieldValue = string(itemValue)
 			}
 		case string:
 			if fVal, ok := fieldValue.(string); !ok {

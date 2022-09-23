@@ -2,8 +2,8 @@
 
 ## Version 0.4.1
 
-- Release date: TBD
-- refactored-method-to-pointer-struct-receiver
+- Release date: September 23, 2022
+- refactored-scripts-method-to-pointer-struct-receiver
 
 
 ## Version 0.4.0

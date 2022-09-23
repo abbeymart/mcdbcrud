@@ -5,6 +5,7 @@
 package mcdbcrud
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/asaskevich/govalidator"
 	"time"
@@ -77,6 +78,13 @@ func ComputeCreateQuery(tableName string, actionParams ActionParamsType) CreateQ
 					return errMessage(fmt.Sprintf("field_name: %v [date-type] | field_value: %v error: ", fieldName, fieldValue))
 				} else {
 					currentFieldValue = "'" + fVal.Format("2006-01-02 15:04:05.000000") + "'"
+				}
+			case map[string]interface{}:
+				if fVal, ok := fieldValue.(map[string]interface{}); !ok {
+					return errMessage(fmt.Sprintf("field_name: %v [date-type] | field_value: %v error: ", fieldName, fieldValue))
+				} else {
+					itemValue, _ := json.Marshal(fVal)
+					currentFieldValue = string(itemValue)
 				}
 			case string:
 				if fVal, ok := fieldValue.(string); !ok {

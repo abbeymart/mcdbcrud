@@ -1,6 +1,6 @@
 // @Author: abbeymart | Abi Akindele | @Created: 2020-12-08 | @Updated: 2020-12-08
 // @Company: mConnect.biz | @License: MIT
-// @Description: compute create-SQL script, for bulk/copy insert operation
+// @Description: compute create-SQL script, for bulk/copy insert operation | updated field-type
 
 package mcdbcrud
 

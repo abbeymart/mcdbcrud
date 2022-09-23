@@ -1,5 +1,10 @@
 # Historical logs
 
+## Version 0.4.2
+
+- Release date: September 23, 2022
+- updated-script-field-type
+
 ## Version 0.4.1
 
 - Release date: September 23, 2022

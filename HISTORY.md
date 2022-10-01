@@ -1,5 +1,10 @@
 # Historical logs
 
+## Version 0.4.3
+
+- Release date: October 01, 2022
+- refactored-added-new-types(roleNames)
+
 ## Version 0.4.2
 
 - Release date: September 23, 2022

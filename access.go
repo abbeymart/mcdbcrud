@@ -16,11 +16,13 @@ import (
 // AccessInfoType for CheckUserAccess method value (interface{}) response,
 // and to assert returned value
 type AccessInfoType struct {
-	UserId   string   `json:"userId"`
-	RoleId   string   `json:"roleId"`
-	RoleIds  []string `json:"roleIds"`
-	IsAdmin  bool     `json:"isAdmin"`
-	IsActive bool     `json:"isActive"`
+	UserId    string   `json:"userId"`
+	RoleId    string   `json:"roleId"`
+	RoleIds   []string `json:"roleIds"`
+	RoleName  string   `json:"roleName"`
+	RoleNames []string `json:"roleNames"`
+	IsAdmin   bool     `json:"isAdmin"`
+	IsActive  bool     `json:"isActive"`
 }
 
 // TaskPermissionType for TaskPermission method value (interface{}) response,
@@ -32,6 +34,8 @@ type TaskPermissionType struct {
 	UserId         string   `json:"userId"`
 	RoleId         string   `json:"roleId"`
 	RoleIds        []string `json:"roleIds"`
+	RoleName       string   `json:"roleName"`
+	RoleNames      []string `json:"roleNames"`
 	OwnerPermitted bool     `json:"ownerPermitted"`
 }
 

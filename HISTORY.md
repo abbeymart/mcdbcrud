@@ -1,5 +1,10 @@
 # Historical logs
 
+## Version 0.4.4
+
+- Release date: December 21 , 2022
+- resolve-DB_URL-override-v0.4.4
+
 ## Version 0.4.3
 
 - Release date: October 01, 2022

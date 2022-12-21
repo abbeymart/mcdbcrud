@@ -50,6 +50,7 @@ type DbConfig struct {
 	Timezone     string           `json:"timezone"`
 	SecureOption DbSecureType     `json:"secureOption"`
 	Options      DbConnectOptions `json:"options"`
+	PermitDBUrl  bool             `json:"permitDBUrl"`
 }
 
 type CrudTasksType struct {

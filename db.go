@@ -19,8 +19,8 @@ var (
 )
 
 func (dbConfig DbConfig) OpenDb() (*sql.DB, error) {
-	sslMode := dbConfig.SecureOption.SslMode
-	sslCert := dbConfig.SecureOption.SecureCert
+	sslMode := dbConfig.SecureOptions.SslMode
+	sslCert := dbConfig.SecureOptions.SecureCert
 	if sslMode == "" {
 		sslMode = "disable"
 	}

@@ -1,5 +1,10 @@
 # Historical logs
 
+## Version 0.4.7
+
+- Release date: December 22, 2022
+- refactored-secureOption-to-secureOptions-v0.4.7
+
 ## Version 0.4.6
 
 - Release date: December 22, 2022

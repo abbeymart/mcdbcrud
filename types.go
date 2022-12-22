@@ -37,20 +37,20 @@ type DbConfigType struct {
 type DbConnectOptions map[string]interface{}
 
 type DbConfig struct {
-	DbType       string           `json:"dbType"`
-	Host         string           `json:"host"`
-	Username     string           `json:"username"`
-	Password     string           `json:"password"`
-	DbName       string           `json:"dbName"`
-	Filename     string           `json:"filename"`
-	Location     string           `json:"location"`
-	Port         uint32           `json:"port"`
-	PoolSize     uint             `json:"poolSize"`
-	Url          string           `json:"url"`
-	Timezone     string           `json:"timezone"`
-	SecureOption DbSecureType     `json:"secureOption"`
-	Options      DbConnectOptions `json:"options"`
-	PermitDBUrl  bool             `json:"permitDBUrl"`
+	DbType        string           `json:"dbType"`
+	Host          string           `json:"host"`
+	Username      string           `json:"username"`
+	Password      string           `json:"password"`
+	DbName        string           `json:"dbName"`
+	Filename      string           `json:"filename"`
+	Location      string           `json:"location"`
+	Port          uint32           `json:"port"`
+	PoolSize      uint             `json:"poolSize"`
+	Url           string           `json:"url"`
+	Timezone      string           `json:"timezone"`
+	SecureOptions DbSecureType     `json:"secureOptions"`
+	Options       DbConnectOptions `json:"options"`
+	PermitDBUrl   bool             `json:"permitDBUrl"`
 }
 
 type CrudTasksType struct {

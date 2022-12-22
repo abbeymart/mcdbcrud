@@ -28,10 +28,10 @@ func (dbConfig DbConfig) OpenDb() (*sql.DB, error) {
 	case "postgres":
 		connectionString := ""
 		if sslCert != "" {
-			connectionString = fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=%v;sslrootcert=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode, sslCert)
+			connectionString = fmt.Sprintf("postgresql://%v:%v@%v:%v/%v?sslmode=%v;sslrootcert=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode, sslCert)
 			//connectionString = fmt.Sprintf("port=%d host=%s user=%s password=%s dbname=%s sslmode=%v sslrootcert=%v", dbConfig.Port, dbConfig.Host, dbConfig.Username, dbConfig.Password, dbConfig.DbName, sslMode, sslCert)
 		} else {
-			connectionString = fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode)
+			connectionString = fmt.Sprintf("postgresql://%v:%v@%v:%v/%v?sslmode=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode)
 		}
 		if os.Getenv("DATABASE_URL") != "" && dbConfig.PermitDBUrl {
 			connectionString = os.Getenv("DATABASE_URL")
@@ -45,10 +45,10 @@ func (dbConfig DbConfig) OpenDb() (*sql.DB, error) {
 	case "mysql", "mariadb":
 		connectionString := ""
 		if sslCert != "" {
-			connectionString = fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=%v;sslrootcert=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode, sslCert)
+			connectionString = fmt.Sprintf("mysql://%v:%v@%v:%v/%v?sslmode=%v;sslrootcert=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode, sslCert)
 			//connectionString = fmt.Sprintf("port=%d host=%s user=%s password=%s dbname=%s sslmode=%v sslrootcert=%v", dbConfig.Port, dbConfig.Host, dbConfig.Username, dbConfig.Password, dbConfig.DbName, sslMode, sslCert)
 		} else {
-			connectionString = fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode)
+			connectionString = fmt.Sprintf("mysql://%v:%v@%v:%v/%v?sslmode=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode)
 		}
 		if os.Getenv("DATABASE_URL") != "" && dbConfig.PermitDBUrl {
 			connectionString = os.Getenv("DATABASE_URL")
@@ -67,7 +67,7 @@ func (dbConfig DbConfig) OpenDb() (*sql.DB, error) {
 		}
 		return db, nil
 	default:
-		return nil, errors.New("unknown db-type('postgres')")
+		return nil, errors.New(fmt.Sprintf("unknown db-type(%v)", dbConfig.DbType))
 	}
 }
 

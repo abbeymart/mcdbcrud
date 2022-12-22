@@ -1,8 +1,13 @@
 # Historical logs
 
+## Version 0.4.6
+
+- Release date: December 22, 2022
+- refactored-postgresql-DB-type-connection-string-v0.4.6
+
 ## Version 0.4.5
 
-- Release date: December 21 , 2022
+- Release date: December 21, 2022
 - refactored-DB-connection-string-v0.4.5
 
 ## Version 0.4.4

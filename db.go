@@ -26,8 +26,13 @@ func (dbConfig DbConfig) OpenDb() (*sql.DB, error) {
 	}
 	switch dbConfig.DbType {
 	case "postgres":
-		//connectionString := fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=%v;sslrootcert=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode, sslCert)
-		connectionString := fmt.Sprintf("port=%d host=%s user=%s password=%s dbname=%s sslmode=%v sslrootcert=%v", dbConfig.Port, dbConfig.Host, dbConfig.Username, dbConfig.Password, dbConfig.DbName, sslMode, sslCert)
+		connectionString := ""
+		if sslCert != "" {
+			connectionString = fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=%v;sslrootcert=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode, sslCert)
+			//connectionString = fmt.Sprintf("port=%d host=%s user=%s password=%s dbname=%s sslmode=%v sslrootcert=%v", dbConfig.Port, dbConfig.Host, dbConfig.Username, dbConfig.Password, dbConfig.DbName, sslMode, sslCert)
+		} else {
+			connectionString = fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode)
+		}
 		if os.Getenv("DATABASE_URL") != "" && dbConfig.PermitDBUrl {
 			connectionString = os.Getenv("DATABASE_URL")
 		}
@@ -38,8 +43,13 @@ func (dbConfig DbConfig) OpenDb() (*sql.DB, error) {
 		}
 		return db, nil
 	case "mysql", "mariadb":
-		//connectionString := fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=%v;sslrootcert=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode, sslCert)
-		connectionString := fmt.Sprintf("port=%d host=%s user=%s password=%s dbname=%s sslmode=%v", dbConfig.Port, dbConfig.Host, dbConfig.Username, dbConfig.Password, dbConfig.DbName, sslMode)
+		connectionString := ""
+		if sslCert != "" {
+			connectionString = fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=%v;sslrootcert=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode, sslCert)
+			//connectionString = fmt.Sprintf("port=%d host=%s user=%s password=%s dbname=%s sslmode=%v sslrootcert=%v", dbConfig.Port, dbConfig.Host, dbConfig.Username, dbConfig.Password, dbConfig.DbName, sslMode, sslCert)
+		} else {
+			connectionString = fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=%v", dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, sslMode)
+		}
 		if os.Getenv("DATABASE_URL") != "" && dbConfig.PermitDBUrl {
 			connectionString = os.Getenv("DATABASE_URL")
 		}

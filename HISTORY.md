@@ -1,5 +1,10 @@
 # Historical logs
 
+## Version 0.4.5
+
+- Release date: December 21 , 2022
+- refactored-DB-connection-string-v0.4.5
+
 ## Version 0.4.4
 
 - Release date: December 21 , 2022

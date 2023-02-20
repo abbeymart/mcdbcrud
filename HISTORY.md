@@ -1,5 +1,10 @@
 # Historical logs
 
+## Version 0.4.8
+
+- Release date: February 19, 2023
+- refactored-deleteCache-usage-params-order-v0.4.8
+
 ## Version 0.4.7
 
 - Release date: December 22, 2022

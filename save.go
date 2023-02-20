@@ -62,7 +62,7 @@ func (crud *Crud) Create(recs ActionParamsType) mcresponse.ResponseMessage {
 		})
 	}
 	// delete cache
-	_ = mccache.DeleteHashCache(crud.TableName, crud.CacheKey, "key")
+	_ = mccache.DeleteHashCache(crud.CacheKey, crud.TableName, "hash")
 	// perform audit-log
 	logMessage := ""
 	logRes := mcresponse.ResponseMessage{}
@@ -143,7 +143,7 @@ func (crud *Crud) Update(recs ActionParamsType) mcresponse.ResponseMessage {
 		})
 	}
 	// delete cache
-	_ = mccache.DeleteHashCache(crud.TableName, crud.CacheKey, "key")
+	_ = mccache.DeleteHashCache(crud.CacheKey, crud.TableName, "hash")
 	// perform audit-log
 	logMessage := ""
 	logRes := mcresponse.ResponseMessage{}
@@ -221,7 +221,7 @@ func (crud *Crud) UpdateById(rec ActionParamType, id string) mcresponse.Response
 		})
 	}
 	// delete cache
-	_ = mccache.DeleteHashCache(crud.TableName, crud.CacheKey, "key")
+	_ = mccache.DeleteHashCache(crud.CacheKey, crud.TableName, "hash")
 	// perform audit-log
 	logMessage := ""
 	logRes := mcresponse.ResponseMessage{}
@@ -307,7 +307,7 @@ func (crud *Crud) UpdateByIds(rec ActionParamType) mcresponse.ResponseMessage {
 	//		updateCount += len(crud.RecordIds)
 	//	}
 	// delete cache
-	_ = mccache.DeleteHashCache(crud.TableName, crud.CacheKey, "key")
+	_ = mccache.DeleteHashCache(crud.CacheKey, crud.TableName, "hash")
 	// perform audit-log
 	logMessage := ""
 	logRes := mcresponse.ResponseMessage{}
@@ -387,7 +387,7 @@ func (crud *Crud) UpdateByParam(rec ActionParamType) mcresponse.ResponseMessage 
 		})
 	}
 	// delete cache
-	_ = mccache.DeleteHashCache(crud.TableName, crud.CacheKey, "key")
+	_ = mccache.DeleteHashCache(crud.CacheKey, crud.TableName, "hash")
 	// perform audit-log
 	logMessage := ""
 	logRes := mcresponse.ResponseMessage{}

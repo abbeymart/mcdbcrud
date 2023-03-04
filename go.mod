@@ -1,6 +1,6 @@
 module github.com/abbeymart/mcdbcrud
 
-go 1.18
+go 1.20
 
 require (
 	github.com/abbeymart/mccache v0.4.2

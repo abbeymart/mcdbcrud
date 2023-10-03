@@ -80,7 +80,7 @@ func (crud *Crud) Create(recs ActionParamsType) mcresponse.ResponseMessage {
 	}
 	// response
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("Record(s) creation completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("AmountRecord(s) creation completed successfully [log-message: %v]", logMessage),
 		Value: CrudResultType{
 			RecordIds:    insertIds,
 			RecordsCount: insertCount,
@@ -162,7 +162,7 @@ func (crud *Crud) Update(recs ActionParamsType) mcresponse.ResponseMessage {
 	}
 	// response
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("Record(s) update completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("AmountRecord(s) update completed successfully [log-message: %v]", logMessage),
 		Value: CrudResultType{
 			QueryParam:   crud.QueryParams,
 			RecordIds:    crud.RecordIds,
@@ -241,7 +241,7 @@ func (crud *Crud) UpdateById(rec ActionParamType, id string) mcresponse.Response
 	// response
 	rowsCount := 1
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("Record(s) update completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("AmountRecord(s) update completed successfully [log-message: %v]", logMessage),
 		Value: CrudResultType{
 			QueryParam:   crud.QueryParams,
 			RecordIds:    crud.RecordIds,
@@ -326,7 +326,7 @@ func (crud *Crud) UpdateByIds(rec ActionParamType) mcresponse.ResponseMessage {
 	}
 	// response
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("Record(s) update completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("AmountRecord(s) update completed successfully [log-message: %v]", logMessage),
 		Value: CrudResultType{
 			QueryParam:   crud.QueryParams,
 			RecordIds:    crud.RecordIds,
@@ -410,7 +410,7 @@ func (crud *Crud) UpdateByParam(rec ActionParamType) mcresponse.ResponseMessage 
 		rowsCount = 0
 	}
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("Record(s) update completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("AmountRecord(s) update completed successfully [log-message: %v]", logMessage),
 		Value: CrudResultType{
 			QueryParam:   crud.QueryParams,
 			RecordIds:    crud.RecordIds,

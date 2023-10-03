@@ -68,7 +68,7 @@ func ComputeCreateQuery(tableName string, actionParams ActionParamsType) CreateQ
 			fieldValue, ok := rec[fieldName]
 			// check for required field in each record
 			if !ok {
-				return errMessage(fmt.Sprintf("Record #%v [%#v]: required field_name[%v] has field_value of %v ", recIndex, rec, fieldName, fieldValue))
+				return errMessage(fmt.Sprintf("AmountRecord #%v [%#v]: required field_name[%v] has field_value of %v ", recIndex, rec, fieldName, fieldValue))
 			}
 			// update recFieldValues by fieldValue-type, for correct postgres-SQL-parsing
 			var currentFieldValue interface{}

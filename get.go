@@ -418,7 +418,7 @@ func (crud *Crud) GetByParam() mcresponse.ResponseMessage {
 	_ = mccache.SetHashCache(crud.CacheKey, crud.TableName, getResult, int64(crud.CacheExpire))
 	// response
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("Record(s) read-query completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("AmountRecord(s) read-query completed successfully [log-message: %v]", logMessage),
 		Value:   getResult,
 	})
 }
@@ -547,7 +547,114 @@ func (crud *Crud) GetAll() mcresponse.ResponseMessage {
 	//_ = mccache.SetHashCache(crud.CacheKey, crud.TableName, getRecords, uint(crud.CacheExpire))
 
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("Record(s) read-query completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("AmountRecord(s) read-query completed successfully [log-message: %v]", logMessage),
+		Value:   getResult,
+	})
+}
+
+// CustomSelectQuery method obtain the query result for the specified selectQuery, tableName and modelPointer and optional fieldPositionalValues.
+func (crud *Crud) CustomSelectQuery(params CustomSelectQueryParamsType) mcresponse.ResponseMessage {
+	//  validate required parameters
+	if params.SelectQuery == "" || params.TableName == "" || params.ModelPointer == nil {
+		return mcresponse.ResponseMessage{
+			Code:    "paramsError",
+			Message: fmt.Sprintf("Valid selectQuery, tableName and modelPointer are required"),
+			Value:   nil,
+		}
+	}
+	// totalRecordsCount, for the query-condition, from the table
+	var totalRows int
+	countQuery := params.CountQuery
+	if countQuery == "" {
+		countQuery = fmt.Sprintf("SELECT COUNT(*) AS total_rows FROM %v", params.TableName)
+	}
+	tRowErr := crud.AppDb.QueryRowx(countQuery).Scan(&totalRows)
+	if tRowErr != nil {
+		return mcresponse.GetResMessage("readError", mcresponse.ResponseMessageOptions{
+			Message: fmt.Sprintf("Db query Error[scan-total-records-count]: %v", tRowErr.Error()),
+			Value:   nil,
+		})
+	}
+	// perform crud-task action
+	rows, qRowErr := crud.AppDb.Queryx(params.SelectQuery, params.QueryPositionalFieldValues...)
+	if qRowErr != nil {
+		return mcresponse.GetResMessage("readError", mcresponse.ResponseMessageOptions{
+			Message: fmt.Sprintf("Db query Error: %v", qRowErr.Error()),
+			Value:   nil,
+		})
+	}
+	defer func(rows *sqlx.Rows) {
+		err := rows.Close()
+		if err != nil {
+
+		}
+	}(rows)
+	// check rows count
+	modelPointer := params.ModelPointer
+	var getRecords []map[string]interface{}
+	for rows.Next() {
+		// perform crud-task action
+		// cast model as struct
+		scanRowErr := rows.StructScan(modelPointer)
+		if scanRowErr != nil {
+			return mcresponse.GetResMessage("readError", mcresponse.ResponseMessageOptions{
+				Message: fmt.Sprintf("Error reading/getting records[row-scan]: %v", scanRowErr.Error()),
+				Value:   nil,
+			})
+		}
+		// transform snapshot value from model-struct to map-value
+		jByte, jErr := json.Marshal(modelPointer)
+		if jErr != nil {
+			return mcresponse.GetResMessage("paramsError", mcresponse.ResponseMessageOptions{
+				Message: fmt.Sprintf("Error transforming result-value into json-value-format: %v", jErr.Error()),
+				Value:   nil,
+			})
+		}
+		mapValue := map[string]interface{}{}
+		jErr = json.Unmarshal(jByte, &mapValue)
+		if jErr != nil {
+			return mcresponse.GetResMessage("paramsError", mcresponse.ResponseMessageOptions{
+				Message: fmt.Sprintf("Error transforming result-value into json-value-format: %v", jErr.Error()),
+				Value:   nil,
+			})
+		}
+		//fmt.Printf("query-record: %#v\n\n", mapValue)
+		getRecords = append(getRecords, mapValue)
+	}
+	// handles not-found-error
+	if len(getRecords) < 1 {
+		return mcresponse.GetResMessage("notFound", mcresponse.ResponseMessageOptions{
+			Message: "RECORDS NOT FOUND.",
+			Value:   nil,
+		})
+	}
+	if rowErr := rows.Err(); rowErr != nil {
+		return mcresponse.GetResMessage("readError", mcresponse.ResponseMessageOptions{
+			Message: fmt.Sprintf("Error reading/getting records: %v", rowErr.Error()),
+			Value: GetResultType{
+				Records:  nil,
+				Stats:    GetStatType{},
+				TaskType: crud.TaskType,
+				LogRes:   mcresponse.ResponseMessage{},
+			},
+		})
+	}
+	// result
+	getResult := GetResultType{
+		Records: getRecords,
+		Stats: GetStatType{
+			Skip:              0,
+			Limit:             crud.MaxQueryLimit,
+			RecordsCount:      len(getRecords),
+			TotalRecordsCount: totalRows,
+			QueryParam:        QueryParamType{},
+			RecordIds:         []string{},
+		},
+		TaskType: crud.TaskType,
+	}
+
+	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
+		Message: fmt.Sprintf("Record(s) read-query completed successfully"),
 		Value:   getResult,
 	})
 }
@@ -677,7 +784,7 @@ func (crud *Crud) GetById1(id string) mcresponse.ResponseMessage {
 	_ = mccache.SetHashCache(crud.CacheKey, crud.TableName, getResult, int64(crud.CacheExpire))
 	// response
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("Record(s) read-query completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("AmountRecord(s) read-query completed successfully [log-message: %v]", logMessage),
 		Value:   getResult,
 	})
 }
@@ -835,7 +942,7 @@ func (crud *Crud) GetByIds1() mcresponse.ResponseMessage {
 	_ = mccache.SetHashCache(crud.CacheKey, crud.TableName, getResult, int64(crud.CacheExpire))
 	// response
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("Record(s) read-query completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("AmountRecord(s) read-query completed successfully [log-message: %v]", logMessage),
 		Value:   getResult,
 	})
 }
@@ -1123,7 +1230,7 @@ func (crud *Crud) GetAll1() mcresponse.ResponseMessage {
 	//_ = mccache.SetHashCache(crud.CacheKey, crud.TableName, getRecords, uint(crud.CacheExpire))
 
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("Record(s) read-query completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("AmountRecord(s) read-query completed successfully [log-message: %v]", logMessage),
 		Value:   getResult,
 	})
 }

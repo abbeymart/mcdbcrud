@@ -122,6 +122,41 @@ func TestGet(t *testing.T) {
 			mctest.AssertEquals(t, len(value.Records) == 20, true, "get-result-count should be = 20")
 		},
 	})
+
+	mctest.McTest(mctest.OptionValue{
+		Name: "custom-query: should get records by Id and return success:",
+		TestFunc: func() {
+			selectFields, fieldErr := QueryFields(model)
+			if fieldErr != nil {
+				errMsg := fmt.Sprintf("SELECT query fields computation error: %v", fieldErr.Error())
+				mctest.AssertEquals(t, fieldErr, nil, errMsg)
+			}
+			// compute queries
+			countQuery := fmt.Sprintf("SELECT COUNT(*) AS total_rows FROM %v", crud.TableName)
+			// perform crud-task action
+			selectQuery := fmt.Sprintf("SELECT %v FROM %v WHERE id=$1", selectFields, crud.TableName)
+			fieldValues := []interface{}{GetAuditById}
+			res := crud.CustomSelectQuery(CustomSelectQueryParamsType{
+				SelectQuery:                selectQuery,
+				CountQuery:                 countQuery,
+				TableName:                  crud.TableName,
+				QueryPositionalFieldValues: fieldValues,
+				ModelPointer:               &modelPtr,
+			})
+			fmt.Printf("get-by-id-response: %#v\n\n", res)
+			value, _ := res.Value.(GetResultType)
+			logRecs := value.Records[0]["logRecords"]
+			strVal, _ := logRecs.(string)
+			decoded, _ := base64.StdEncoding.DecodeString(strVal)
+			fmt.Printf("json-records: %#v\n\n", logRecs)
+			fmt.Printf("decoded-json-records: %#v\n\n", string(decoded))
+			//fmt.Printf("get-by-id-response, code:recsCount %v:%v :\n", res.Code, value.Stats.RecordsCount)
+			mctest.AssertEquals(t, res.Code, "success", "get-task should return code: success")
+			mctest.AssertEquals(t, value.Stats.RecordsCount, 1, "get-task-count should be: 1")
+			mctest.AssertEquals(t, len(value.Records), 1, "get-result-count should be: 1")
+		},
+	})
+
 	mctest.PostTestResult()
 
 }

@@ -612,3 +612,27 @@ func TransformGetCrudParams(params CrudParamsType, accessRes mcresponse.Response
 	}
 	return params
 }
+
+// QueryFields function computes the underscore field-names from the specified model
+func QueryFields(modelRef interface{}) (string, error) {
+	// compute map[string]interface (underscore_fields) from the modelRef (struct)
+	mapMod, mapErr := StructToMapUnderscore(modelRef)
+	if mapErr != nil {
+		return "", mapErr
+	}
+	// compute table-fields
+	var fieldNames []string
+	for fieldName := range mapMod {
+		fieldNames = append(fieldNames, fieldName)
+	}
+	fieldLen := len(fieldNames)
+	fieldText := ""
+	for i, fieldName := range fieldNames {
+		//fieldText += "'" + fieldName + "'"
+		fieldText += fieldName
+		if i < fieldLen-1 {
+			fieldText += ", "
+		}
+	}
+	return fieldText, nil
+}

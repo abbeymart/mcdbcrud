@@ -1,5 +1,10 @@
 # Historical logs
 
+## Version 0.5.0
+
+- Release date: October 06, 2023
+- added-custom-select-query-feature-v0.5.0
+
 ## Version 0.4.8
 
 - Release date: February 19, 2023

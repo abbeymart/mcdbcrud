@@ -618,7 +618,7 @@ func (crud *Crud) CheckLoginStatus() mcresponse.ResponseMessage {
 	uErr := uRow.Scan(&userId)
 	if uErr != nil {
 		return mcresponse.GetResMessage("unAuthorized", mcresponse.ResponseMessageOptions{
-			Message: fmt.Sprintf("Record not found for %v. Register a new account: %v", params.LoginName, uErr.Error()),
+			Message: fmt.Sprintf("AmountRecord not found for %v. Register a new account: %v", params.LoginName, uErr.Error()),
 			Value:   nil,
 		})
 	}

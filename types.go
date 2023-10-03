@@ -556,3 +556,11 @@ type GetCrudParamsType struct {
 	TableFieldPointers []interface{}
 	AuditLog           bool
 }
+
+type CustomSelectQueryParamsType struct {
+	SelectQuery                string        `json:"selectQuery"`
+	CountQuery                 string        `json:"countQuery"`
+	TableName                  string        `json:"tableName"`
+	ModelPointer               interface{}   `json:"modelPointer"`
+	QueryPositionalFieldValues []interface{} `json:"queryPositionalFieldValues"`
+}

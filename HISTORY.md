@@ -1,8 +1,13 @@
 # Historical logs
 
+## Version 0.5.1
+
+- Release date: October 04, 2023
+- added-mccache-fix-v0.4.4-updated-go-version1.21-v0.5.1
+
 ## Version 0.5.0
 
-- Release date: October 06, 2023
+- Release date: October 03, 2023
 - added-custom-select-query-feature-v0.5.0
 
 ## Version 0.4.8

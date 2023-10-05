@@ -19,7 +19,7 @@ func (crud *Crud) DeleteById(id string) mcresponse.ResponseMessage {
 		crud.CurrentRecords = value.Records
 	} else {
 		return mcresponse.GetResMessage("notFound", mcresponse.ResponseMessageOptions{
-			Message: "AmountRecord not found",
+			Message: "Record not found",
 			Value:   nil,
 		})
 	}
@@ -61,7 +61,7 @@ func (crud *Crud) DeleteById(id string) mcresponse.ResponseMessage {
 		rowsCount = 0
 	}
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("AmountRecord(s) deleted successfully: [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("Record(s) deleted successfully: [log-message: %v]", logMessage),
 		Value: CrudResultType{
 			QueryParam:   crud.QueryParams,
 			RecordsCount: int(rowsCount),
@@ -80,7 +80,7 @@ func (crud *Crud) DeleteByIds() mcresponse.ResponseMessage {
 		crud.CurrentRecords = value.Records
 	} else {
 		return mcresponse.GetResMessage("notFound", mcresponse.ResponseMessageOptions{
-			Message: "AmountRecord(s) not found",
+			Message: "Record(s) not found",
 			Value:   nil,
 		})
 	}
@@ -121,7 +121,7 @@ func (crud *Crud) DeleteByIds() mcresponse.ResponseMessage {
 		rowsCount = 0
 	}
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("AmountRecord(s) deleted successfully: [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("Record(s) deleted successfully: [log-message: %v]", logMessage),
 		Value: CrudResultType{
 			QueryParam:   crud.QueryParams,
 			RecordsCount: int(rowsCount),
@@ -140,7 +140,7 @@ func (crud *Crud) DeleteByParam() mcresponse.ResponseMessage {
 		crud.CurrentRecords = value.Records
 	} else {
 		return mcresponse.GetResMessage("notFound", mcresponse.ResponseMessageOptions{
-			Message: "AmountRecord(s) not found",
+			Message: "Record(s) not found",
 			Value:   nil,
 		})
 	}
@@ -182,7 +182,7 @@ func (crud *Crud) DeleteByParam() mcresponse.ResponseMessage {
 		rowsCount = 0
 	}
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("AmountRecord(s) deleted successfully: [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("Record(s) deleted successfully: [log-message: %v]", logMessage),
 		Value: CrudResultType{
 			QueryParam:   crud.QueryParams,
 			RecordsCount: int(rowsCount),
@@ -230,7 +230,7 @@ func (crud *Crud) DeleteAll() mcresponse.ResponseMessage {
 		rowsCount = 0
 	}
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("AmountRecord(s) deleted successfully [log-message: %v] ", logMessage),
+		Message: fmt.Sprintf("Record(s) deleted successfully [log-message: %v] ", logMessage),
 		Value: CrudResultType{
 			RecordsCount: int(rowsCount),
 			TaskType:     DeleteTask,

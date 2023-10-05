@@ -418,7 +418,7 @@ func (crud *Crud) GetByParam() mcresponse.ResponseMessage {
 	_ = mccache.SetHashCache(crud.CacheKey, crud.TableName, getResult, int64(crud.CacheExpire))
 	// response
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("AmountRecord(s) read-query completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("Record(s) read-query completed successfully [log-message: %v]", logMessage),
 		Value:   getResult,
 	})
 }
@@ -547,7 +547,7 @@ func (crud *Crud) GetAll() mcresponse.ResponseMessage {
 	//_ = mccache.SetHashCache(crud.CacheKey, crud.TableName, getRecords, uint(crud.CacheExpire))
 
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("AmountRecord(s) read-query completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("Record(s) read-query completed successfully [log-message: %v]", logMessage),
 		Value:   getResult,
 	})
 }
@@ -784,7 +784,7 @@ func (crud *Crud) GetById1(id string) mcresponse.ResponseMessage {
 	_ = mccache.SetHashCache(crud.CacheKey, crud.TableName, getResult, int64(crud.CacheExpire))
 	// response
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("AmountRecord(s) read-query completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("Record(s) read-query completed successfully [log-message: %v]", logMessage),
 		Value:   getResult,
 	})
 }
@@ -942,7 +942,7 @@ func (crud *Crud) GetByIds1() mcresponse.ResponseMessage {
 	_ = mccache.SetHashCache(crud.CacheKey, crud.TableName, getResult, int64(crud.CacheExpire))
 	// response
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("AmountRecord(s) read-query completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("Record(s) read-query completed successfully [log-message: %v]", logMessage),
 		Value:   getResult,
 	})
 }
@@ -1230,7 +1230,7 @@ func (crud *Crud) GetAll1() mcresponse.ResponseMessage {
 	//_ = mccache.SetHashCache(crud.CacheKey, crud.TableName, getRecords, uint(crud.CacheExpire))
 
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{
-		Message: fmt.Sprintf("AmountRecord(s) read-query completed successfully [log-message: %v]", logMessage),
+		Message: fmt.Sprintf("Record(s) read-query completed successfully [log-message: %v]", logMessage),
 		Value:   getResult,
 	})
 }

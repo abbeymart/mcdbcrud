@@ -3,6 +3,11 @@
 ## Version 0.5.1
 
 - Release date: October 04, 2023
+- corrected-response-text-AmountRecord-to-Record-v0.5.2
+
+## Version 0.5.1
+
+- Release date: October 04, 2023
 - added-mccache-fix-v0.4.4-updated-go-version1.21-v0.5.1
 
 ## Version 0.5.0

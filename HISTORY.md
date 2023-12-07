@@ -1,5 +1,11 @@
 # Historical logs
 
+## Version 0.6.0
+
+- Release date: Dec 07, 2023
+- added-custom-log-func-and-refactor-tx-error-handling-v0.6.0
+
+
 ## Version 0.5.1
 
 - Release date: October 04, 2023

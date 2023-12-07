@@ -1,4 +1,4 @@
-// @Author: abbeymart | Abi Akindele | @Created: 2020-12-05 | @Updated: 2020-12-05
+// @Author: abbeymart | Abi Akindele | @Created: 2023-12-05 | @Updated: 2023-12-05
 // @Company: mConnect.biz | @License: MIT
 // @Description: go: mConnect
 
@@ -13,7 +13,7 @@ import (
 	"github.com/abbeymart/mctest"
 )
 
-func TestAuditLogx(t *testing.T) {
+func TestAuditLogxCustom(t *testing.T) {
 	// test-data: db-configuration settings
 
 	tableName := "services"
@@ -46,18 +46,19 @@ func TestAuditLogx(t *testing.T) {
 	mcLog := NewAuditLogx(dbc, "audits")
 
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx]should connect to the DB and return an instance object:",
+		Name: "[Sqlx-CustomLog]should connect to the DB and return an instance object:",
 		TestFunc: func() {
 			mctest.AssertEquals(t, err, nil, "error-response should be: nil")
 			mctest.AssertEquals(t, mcLog, mcLogResult, "db-connection instance should be: "+mcLogResult.String())
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx]should store create-transaction log and return success:",
+		Name: "[Sqlx-CustomLog]should store create-transaction log and return success:",
 		TestFunc: func() {
-			res, err := mcLog.AuditLog(CreateLog, userId, AuditLogOptionsType{
+			res, err := mcLog.CustomLog(AuditParamsType{
 				TableName:  tableName,
 				LogRecords: LogRecordsType{LogRecords: recs},
+				LogBy:      userId,
 			})
 			//fmt.Printf("create-log: %v", res)
 			mctest.AssertEquals(t, err, nil, "error-response should be: nil")
@@ -65,7 +66,7 @@ func TestAuditLogx(t *testing.T) {
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx]should store update-transaction log and return success:",
+		Name: "[Sqlx-CustomLog]should store update-transaction log and return success:",
 		TestFunc: func() {
 			res, err := mcLog.AuditLog(UpdateLog, userId, AuditLogOptionsType{
 				TableName:     tableName,
@@ -77,7 +78,7 @@ func TestAuditLogx(t *testing.T) {
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx]should store read-transaction log and return success:",
+		Name: "[Sqlx-CustomLog]should store read-transaction log and return success:",
 		TestFunc: func() {
 			res, err := mcLog.AuditLog(ReadLog, userId, AuditLogOptionsType{
 				TableName:  tableName,
@@ -88,7 +89,7 @@ func TestAuditLogx(t *testing.T) {
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx]should store delete-transaction log and return success:",
+		Name: "[Sqlx-CustomLog]should store delete-transaction log and return success:",
 		TestFunc: func() {
 			res, err := mcLog.AuditLog(DeleteLog, userId, AuditLogOptionsType{
 				TableName:  tableName,
@@ -99,7 +100,7 @@ func TestAuditLogx(t *testing.T) {
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx]should store login-transaction log and return success:",
+		Name: "[Sqlx-CustomLog]should store login-transaction log and return success:",
 		TestFunc: func() {
 			res, err := mcLog.AuditLog(LoginLog, userId, AuditLogOptionsType{
 				TableName:  tableName,
@@ -110,7 +111,7 @@ func TestAuditLogx(t *testing.T) {
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx]should store logout-transaction log and return success:",
+		Name: "[Sqlx-CustomLog]should store logout-transaction log and return success:",
 		TestFunc: func() {
 			res, err := mcLog.AuditLog(LogoutLog, userId, AuditLogOptionsType{
 				TableName:  tableName,
@@ -121,7 +122,7 @@ func TestAuditLogx(t *testing.T) {
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx]should return paramsError for incomplete/undefined inputs:",
+		Name: "[Sqlx-CustomLog]should return paramsError for incomplete/undefined inputs:",
 		TestFunc: func() {
 			res, err := mcLog.AuditLog(CreateLog, "", AuditLogOptionsType{
 				TableName:  tableName,

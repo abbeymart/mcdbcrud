@@ -53,9 +53,10 @@ func (crud *Crud) Create(recs ActionParamsType) mcresponse.ResponseMessage {
 	// commit
 	txcErr := tx.Commit()
 	if txcErr != nil {
-		if rErr := tx.Rollback(); rErr != nil {
-			log.Fatalf("Unable to Rollback: Check DB-driver: %v", rErr.Error())
-		}
+		_ = tx.Rollback()
+		//if rErr := tx.Rollback(); rErr != nil {
+		//	log.Fatalf("Unable to Rollback: Check DB-driver: %v", rErr.Error())
+		//}
 		return mcresponse.GetResMessage("insertError", mcresponse.ResponseMessageOptions{
 			Message: fmt.Sprintf("Error creating new record(s): %v", txcErr.Error()),
 			Value:   nil,
@@ -67,7 +68,7 @@ func (crud *Crud) Create(recs ActionParamsType) mcresponse.ResponseMessage {
 	logMessage := ""
 	logRes := mcresponse.ResponseMessage{}
 	var logErr error
-	if crud.LogCreate {
+	if crud.LogCreate || crud.LogCrud {
 		auditInfo := AuditLogOptionsType{
 			TableName:  crud.TableName,
 			LogRecords: LogRecordsType{LogRecords: crud.ActionParams},
@@ -134,9 +135,7 @@ func (crud *Crud) Update(recs ActionParamsType) mcresponse.ResponseMessage {
 	// commit
 	txcErr := tx.Commit()
 	if txcErr != nil {
-		if rErr := tx.Rollback(); rErr != nil {
-			log.Fatalf("Unable to Rollback: Check DB-driver: %v", rErr.Error())
-		}
+		_ = tx.Rollback()
 		return mcresponse.GetResMessage("updateError", mcresponse.ResponseMessageOptions{
 			Message: fmt.Sprintf("Error updating record(s): %v", txcErr.Error()),
 			Value:   nil,
@@ -212,9 +211,7 @@ func (crud *Crud) UpdateById(rec ActionParamType, id string) mcresponse.Response
 	// commit
 	txcErr := tx.Commit()
 	if txcErr != nil {
-		if rErr := tx.Rollback(); rErr != nil {
-			log.Fatalf("Unable to Rollback: Check DB-driver: %v", rErr.Error())
-		}
+		_ = tx.Rollback()
 		return mcresponse.GetResMessage("updateError", mcresponse.ResponseMessageOptions{
 			Message: fmt.Sprintf("Error updating record(s): %v", txcErr.Error()),
 			Value:   nil,
@@ -292,9 +289,7 @@ func (crud *Crud) UpdateByIds(rec ActionParamType) mcresponse.ResponseMessage {
 	// commit
 	txcErr := tx.Commit()
 	if txcErr != nil {
-		if rErr := tx.Rollback(); rErr != nil {
-			log.Fatalf("Unable to Rollback: Check DB-driver: %v", rErr.Error())
-		}
+		_ = tx.Rollback()
 		return mcresponse.GetResMessage("updateError", mcresponse.ResponseMessageOptions{
 			Message: fmt.Sprintf("Error updating record(s): %v", txcErr.Error()),
 			Value:   nil,
@@ -378,9 +373,7 @@ func (crud *Crud) UpdateByParam(rec ActionParamType) mcresponse.ResponseMessage 
 	// commit
 	txcErr := tx.Commit()
 	if txcErr != nil {
-		if rErr := tx.Rollback(); rErr != nil {
-			log.Fatalf("Unable to Rollback: Check DB-driver: %v", rErr.Error())
-		}
+		_ = tx.Rollback()
 		return mcresponse.GetResMessage("updateError", mcresponse.ResponseMessageOptions{
 			Message: fmt.Sprintf("Error updating record(s): %v", txcErr.Error()),
 			Value:   nil,

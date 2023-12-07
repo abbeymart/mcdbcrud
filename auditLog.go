@@ -29,6 +29,15 @@ type AuditLogOptionsType struct {
 	RecordIds     []string
 }
 
+type AuditParamsType struct {
+	TableName     string
+	LogRecords    interface{}
+	NewLogRecords interface{}
+	LogType       string
+	LogBy         string
+	LogAt         time.Time
+}
+
 type AuditLogger interface {
 	AuditLog(logType, userId string, options AuditLogOptionsType) (mcresponse.ResponseMessage, error)
 }
@@ -329,6 +338,63 @@ func (log LogParam) AuditLog(logType, userId string, options AuditLogOptionsType
 		mcresponse.ResponseMessageOptions{
 			Message: "successful audit-log action",
 			Value:   dbResult,
+		}), nil
+}
+
+func (log LogParam) CustomLog(params AuditParamsType) (mcresponse.ResponseMessage, error) {
+	// validate params
+	var errorMessage = ""
+	if params.LogBy == "" {
+		errorMessage = "Log userId/name or owner required."
+	}
+	if params.LogRecords == nil {
+		if errorMessage != "" {
+			errorMessage = errorMessage + " | Data / information to be logged is required."
+		} else {
+			errorMessage = "Data / information to be logged is required."
+		}
+	}
+	if errorMessage != "" {
+		return mcresponse.GetResMessage("paramsError",
+			mcresponse.ResponseMessageOptions{
+				Message: errorMessage,
+				Value:   nil,
+			}), errors.New(errorMessage)
+	}
+	// log-cases
+	logBy := params.LogBy
+	tableName := params.TableName
+	logRecs, _ := json.Marshal(params.LogRecords)
+	logRecords := string(logRecs)
+	newLogRecs, newLogRecErr := json.Marshal(params.NewLogRecords)
+	newLogRecords := ""
+	if newLogRecErr == nil {
+		newLogRecords = string(newLogRecs)
+	}
+	logAt := time.Now()
+	logType := params.LogType
+	if logType == "" {
+		logType = CreateLog
+	}
+	// compose SQL-script
+	sqlScript := fmt.Sprintf("INSERT INTO %v(table_name, log_records, new_log_records, log_type, log_by, log_at ) VALUES ($1, $2, $3, $4, $5, $6)", log.AuditTable)
+	// perform db-log-insert action
+	dbResult, dbErr := log.AuditDb.Exec(sqlScript, tableName, logRecords, newLogRecords, logType, logBy, logAt)
+	// Handle error
+	if dbErr != nil {
+		errMsg := fmt.Sprintf("%v", dbErr.Error())
+		return mcresponse.GetResMessage("logError",
+			mcresponse.ResponseMessageOptions{
+				Message: errMsg,
+				Value:   nil,
+			}), errors.New(errMsg)
+	}
+	lastInsertId, _ := dbResult.LastInsertId()
+	rowsAffected, _ := dbResult.RowsAffected()
+	return mcresponse.GetResMessage("success",
+		mcresponse.ResponseMessageOptions{
+			Message: "successful audit-log action",
+			Value:   map[string]interface{}{"lastInsertId": lastInsertId, "rowsAffected": rowsAffected},
 		}), nil
 }
 

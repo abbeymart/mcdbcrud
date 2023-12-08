@@ -342,13 +342,18 @@ func (log LogParamX) CustomLog(params AuditParamsType) (mcresponse.ResponseMessa
 	}
 	// log-cases
 	logBy := params.LogBy
-	tableName := params.TableName
+	tableName := "not-specified"
+	if params.TableName != "" {
+		tableName = params.TableName
+	}
 	logRecs, _ := json.Marshal(params.LogRecords)
 	logRecords := string(logRecs)
-	newLogRecs, newLogRecErr := json.Marshal(params.NewLogRecords)
-	newLogRecords := ""
-	if newLogRecErr == nil {
-		newLogRecords = string(newLogRecs)
+	var newLogRecords interface{}
+	if params.NewLogRecords != nil {
+		newLogRecs, newLogRecErr := json.Marshal(params.NewLogRecords)
+		if newLogRecErr == nil {
+			newLogRecords = string(newLogRecs)
+		}
 	}
 	logAt := time.Now()
 	logType := params.LogType

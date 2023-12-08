@@ -17,6 +17,10 @@ import (
 // and to assert returned value
 type AccessInfoType struct {
 	UserId    string   `json:"userId"`
+	Username  string   `json:"username"`
+	Email     string   `json:"email"`
+	Firstname string   `json:"firstname"`
+	Lastname  string   `json:"lastname"`
 	RoleId    string   `json:"roleId"`
 	RoleIds   []string `json:"roleIds"`
 	RoleName  string   `json:"roleName"`

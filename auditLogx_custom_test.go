@@ -46,14 +46,14 @@ func TestAuditLogxCustom(t *testing.T) {
 	mcLog := NewAuditLogx(dbc, "audits")
 
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx-CustomLog]should connect to the DB and return an instance object:",
+		Name: "[Sqlx-CustomLog] should connect to the DB and return an instance object:",
 		TestFunc: func() {
 			mctest.AssertEquals(t, err, nil, "error-response should be: nil")
 			mctest.AssertEquals(t, mcLog, mcLogResult, "db-connection instance should be: "+mcLogResult.String())
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx-CustomLog]should store create-transaction log and return success:",
+		Name: "[Sqlx-CustomLog] should store create-transaction log and return success:",
 		TestFunc: func() {
 			res, err := mcLog.CustomLog(AuditParamsType{
 				TableName:  tableName,
@@ -66,73 +66,83 @@ func TestAuditLogxCustom(t *testing.T) {
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx-CustomLog]should store update-transaction log and return success:",
+		Name: "[Sqlx-CustomLog] should store update-transaction log and return success:",
 		TestFunc: func() {
-			res, err := mcLog.AuditLog(UpdateLog, userId, AuditLogOptionsType{
+			res, err := mcLog.CustomLog(AuditParamsType{
 				TableName:     tableName,
 				LogRecords:    LogRecordsType{LogRecords: recs},
 				NewLogRecords: LogRecordsType{LogRecords: newRecs},
+				LogBy:         userId,
+				LogType:       UpdateLog,
 			})
 			mctest.AssertEquals(t, err, nil, "error-response should be: nil")
 			mctest.AssertEquals(t, res.Code, "success", "log-action response-code should be: success")
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx-CustomLog]should store read-transaction log and return success:",
+		Name: "[Sqlx-CustomLog] should store read-transaction log and return success:",
 		TestFunc: func() {
-			res, err := mcLog.AuditLog(ReadLog, userId, AuditLogOptionsType{
+			res, err := mcLog.CustomLog(AuditParamsType{
 				TableName:  tableName,
 				LogRecords: LogRecordsType{LogRecords: readP},
+				LogBy:      userId,
+				LogType:    ReadLog,
 			})
 			mctest.AssertEquals(t, err, nil, "error-response should be: nil")
 			mctest.AssertEquals(t, res.Code, "success", "log-action response-code should be: success")
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx-CustomLog]should store delete-transaction log and return success:",
+		Name: "[Sqlx-CustomLog] should store delete-transaction log and return success:",
 		TestFunc: func() {
-			res, err := mcLog.AuditLog(DeleteLog, userId, AuditLogOptionsType{
+			res, err := mcLog.CustomLog(AuditParamsType{
 				TableName:  tableName,
 				LogRecords: LogRecordsType{LogRecords: recs},
+				LogBy:      userId,
+				LogType:    DeleteLog,
 			})
 			mctest.AssertEquals(t, err, nil, "error-response should be: nil")
 			mctest.AssertEquals(t, res.Code, "success", "log-action response-code should be: success")
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx-CustomLog]should store login-transaction log and return success:",
+		Name: "[Sqlx-CustomLog] should store login-transaction log and return success:",
 		TestFunc: func() {
-			res, err := mcLog.AuditLog(LoginLog, userId, AuditLogOptionsType{
+			res, err := mcLog.CustomLog(AuditParamsType{
 				TableName:  tableName,
 				LogRecords: LogRecordsType{LogRecords: recs},
+				LogBy:      userId,
+				LogType:    LoginLog,
 			})
 			mctest.AssertEquals(t, err, nil, "error-response should be: nil")
 			mctest.AssertEquals(t, res.Code, "success", "log-action response-code should be: success")
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx-CustomLog]should store logout-transaction log and return success:",
+		Name: "[Sqlx-CustomLog] should store logout-transaction log and return success:",
 		TestFunc: func() {
-			res, err := mcLog.AuditLog(LogoutLog, userId, AuditLogOptionsType{
+			res, err := mcLog.CustomLog(AuditParamsType{
 				TableName:  tableName,
 				LogRecords: LogRecordsType{LogRecords: recs},
+				LogBy:      userId,
+				LogType:    LogoutLog,
 			})
 			mctest.AssertEquals(t, err, nil, "error-response should be: nil")
 			mctest.AssertEquals(t, res.Code, "success", "log-action response-code should be: success")
 		},
 	})
 	mctest.McTest(mctest.OptionValue{
-		Name: "[Sqlx-CustomLog]should return paramsError for incomplete/undefined inputs:",
+		Name: "[Sqlx-CustomLog] should return paramsError for incomplete/undefined inputs:",
 		TestFunc: func() {
-			res, err := mcLog.AuditLog(CreateLog, "", AuditLogOptionsType{
+			res, err := mcLog.CustomLog(AuditParamsType{
 				TableName:  tableName,
 				LogRecords: LogRecordsType{LogRecords: recs},
 			})
 			//fmt.Printf("params-res: %#v", res)
 			mctest.AssertNotEquals(t, err, nil, "error-response should not be: nil")
 			mctest.AssertEquals(t, res.Code, "paramsError", "log-action response-code should be: paramsError")
-			mctest.AssertEquals(t, strings.Contains(res.Message, "userId is required"), true, "log-action response-message should be: true")
-			mctest.AssertEquals(t, strings.Contains(err.Error(), "userId is required"), true, "log-action error-message should be: true")
+			mctest.AssertEquals(t, strings.Contains(res.Message, "Log userId/name or owner required"), true, "log-action response-message should be: true")
+			mctest.AssertEquals(t, strings.Contains(err.Error(), "Log userId/name or owner required"), true, "log-action error-message should be: true")
 		},
 	})
 

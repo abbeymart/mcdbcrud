@@ -10,6 +10,7 @@ import (
 	"github.com/abbeymart/mccache"
 	"github.com/abbeymart/mcresponse"
 	"github.com/jmoiron/sqlx"
+	"strings"
 )
 
 // GetById method fetches/gets/reads record that met the specified record-id,
@@ -564,10 +565,15 @@ func (crud *Crud) CustomSelectQuery(params CustomSelectQueryParamsType) mcrespon
 	}
 	// totalRecordsCount, for the query-condition, from the table
 	var totalRows int
-	countQuery := params.CountQuery
-	if countQuery == "" {
-		countQuery = fmt.Sprintf("SELECT COUNT(*) AS total_rows FROM %v", params.TableName)
+	countQuery := fmt.Sprintf("SELECT COUNT(*) AS total_rows FROM %v", params.TableName)
+	// adjust selectQuery for skip and limit options
+	if !strings.Contains(params.SelectQuery, "LIMIT") && params.CrudParams.Limit > 0 {
+		params.SelectQuery += fmt.Sprintf(" LIMIT %v", params.CrudParams.Limit)
 	}
+	if !strings.Contains(params.SelectQuery, "OFFSET") && params.CrudParams.Skip > 0 {
+		params.SelectQuery += fmt.Sprintf(" OFFSET %v", params.CrudParams.Skip)
+	}
+	// Perform query
 	tRowErr := crud.AppDb.QueryRowx(countQuery).Scan(&totalRows)
 	if tRowErr != nil {
 		return mcresponse.GetResMessage("readError", mcresponse.ResponseMessageOptions{
@@ -640,17 +646,25 @@ func (crud *Crud) CustomSelectQuery(params CustomSelectQueryParamsType) mcrespon
 		})
 	}
 	// result
+	limit := params.CrudParams.Limit
+	skip := params.CrudParams.Skip
+	if limit < 1 {
+		limit = crud.MaxQueryLimit
+	}
+	if skip < 1 {
+		skip = 0
+	}
 	getResult := GetResultType{
 		Records: getRecords,
 		Stats: GetStatType{
-			Skip:              0,
-			Limit:             crud.MaxQueryLimit,
+			Skip:              skip,
+			Limit:             limit,
 			RecordsCount:      len(getRecords),
 			TotalRecordsCount: totalRows,
 			QueryParam:        QueryParamType{},
 			RecordIds:         []string{},
 		},
-		TaskType: crud.TaskType,
+		TaskType: ReadTask,
 	}
 
 	return mcresponse.GetResMessage("success", mcresponse.ResponseMessageOptions{

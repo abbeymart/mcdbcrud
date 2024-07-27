@@ -104,6 +104,7 @@ type UserInfoType struct {
 	Token     string `json:"token" mcorm:"token"`
 	Expire    int64  `json:"expire" mcorm:"expire"`
 	Email     string `json:"email" form:"email" mcorm:"email"`
+	Username  string `json:"username" form:"username" mcorm:"username"`
 	RoleId    string `json:"roleId" mcorm:"role_id"`
 }
 
@@ -558,9 +559,11 @@ type GetCrudParamsType struct {
 }
 
 type CustomSelectQueryParamsType struct {
-	SelectQuery                string        `json:"selectQuery"`
-	CountQuery                 string        `json:"countQuery"`
-	TableName                  string        `json:"tableName"`
-	ModelPointer               interface{}   `json:"modelPointer"`
-	QueryPositionalFieldValues []interface{} `json:"queryPositionalFieldValues"`
+	SelectQuery                string          `json:"selectQuery"`
+	CountQuery                 string          `json:"countQuery"`
+	TableName                  string          `json:"tableName"`
+	ModelPointer               interface{}     `json:"modelPointer"`
+	QueryPositionalFieldValues []interface{}   `json:"queryPositionalFieldValues"`
+	CrudParams                 CrudParamsType  `json:"crudParams"`
+	CrudOptions                CrudOptionsType `json:"crudOptions"`
 }

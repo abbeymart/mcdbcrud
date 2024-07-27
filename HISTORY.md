@@ -1,10 +1,14 @@
 # Historical logs
 
+## Version 0.6.1
+
+- Release date: July 27, 2024
+- added-username-field-to-UserInfoType-refactor-CustomQuery-v0.6.1
+
 ## Version 0.6.0
 
 - Release date: Dec 07, 2023
 - added-custom-log-func-and-refactor-accessInfoType-tx-error-handling-v0.6.0
-
 
 ## Version 0.5.1
 

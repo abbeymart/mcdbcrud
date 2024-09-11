@@ -534,8 +534,8 @@ func RandomNumbers(n int) string {
 	return fmt.Sprintf("%v", strings.Join(vString, ""))
 }
 
-// CheckTaskType determine/set task type based on the actionParams
-func CheckTaskType(params CrudParamsType) string {
+// CheckTaskTypeV1 determine/set task type based on the actionParams
+func CheckTaskTypeV1(params CrudParamsType) string {
 	taskType := ""
 	if len(params.ActionParams) > 0 {
 		actParam := params.ActionParams[0]
@@ -551,6 +551,50 @@ func CheckTaskType(params CrudParamsType) string {
 		}
 	}
 	return taskType
+}
+
+// CheckTaskType function determines and returns the taskType, based on the actionParams from the CrudParamsType
+func CheckTaskType(params CrudParamsType) string {
+	if len(params.ActionParams) < 1 {
+		return UnknownTask
+	}
+	// check task-types for actionParams === 1 or > 1
+	if len(params.ActionParams) == 1 {
+		actParam := params.ActionParams[0]
+		recId, ok := actParam["id"].(string)
+		if !ok || recId == "" {
+			if len(params.RecordIds) > 0 || len(params.QueryParams) > 0 {
+				return UpdateTask
+			} else {
+				return CreateTask
+			}
+		} else {
+			return UpdateTask
+		}
+	}
+	if len(params.ActionParams) > 1 {
+		updateCount := 0
+		createCount := 0
+		for _, actRec := range params.ActionParams {
+			recId, ok := actRec["id"].(string)
+			if !ok || recId == "" {
+				createCount += 1
+			} else {
+				updateCount += 1
+			}
+		}
+		// determine task-type
+		if updateCount > 0 && createCount > 0 {
+			return UnknownTask
+		}
+		if createCount > 0 {
+			return CreateTask
+		}
+		if updateCount > 0 {
+			return UpdateTask
+		}
+	}
+	return UnknownTask
 }
 
 // ComputeAccessResValue returns the transform access-response-value of AccessResValueType

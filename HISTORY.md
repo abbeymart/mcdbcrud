@@ -1,5 +1,10 @@
 # Historical logs
 
+## Version 0.6.2
+
+- Release date: Sep 11, 2024
+- refactored-CheckTaskType-func-v0.6.2
+
 ## Version 0.6.1
 
 - Release date: July 27, 2024

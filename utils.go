@@ -534,7 +534,7 @@ func RandomNumbers(n int) string {
 	return fmt.Sprintf("%v", strings.Join(vString, ""))
 }
 
-// CheckTaskTypeV1 determine/set task type based on the actionParams
+// CheckTaskTypeV1 determine/set task type based on the actionParams - update tag-v0.6.2 to v0.6.3
 func CheckTaskTypeV1(params CrudParamsType) string {
 	taskType := ""
 	if len(params.ActionParams) > 0 {

@@ -3,6 +3,8 @@ github.com/abbeymart/mccache v0.4.2 h1:J9IONG2EobQ5F8S8hG6BT2hZ6nf40s8R33+5RucUQ
 github.com/abbeymart/mccache v0.4.2/go.mod h1:m1eonx83oCCMmdzt4U8qXMq2pDy5yp4ULvDmg5l2sns=
 github.com/abbeymart/mccache v0.4.3 h1:mCvQdaInAMqPOeaDMBHpQW+DBhKCNdFkMhZeal66fG4=
 github.com/abbeymart/mccache v0.4.3/go.mod h1:becLojlQDPMBncSNKgJXIZ7F9Y3m4lQ3Os8YXdTucT4=
+github.com/abbeymart/mccache v0.5.0 h1:ouv/Xh2frbR60au4FaUEKmOSQB6OuETlJBzTLdx3QzA=
+github.com/abbeymart/mccache v0.5.0/go.mod h1:becLojlQDPMBncSNKgJXIZ7F9Y3m4lQ3Os8YXdTucT4=
 github.com/abbeymart/mcresponse v0.9.1 h1:6OdrP8KtcMNb7ZlG9G+vCu+YoGLuQG/NwQpfuox7zLc=
 github.com/abbeymart/mcresponse v0.9.1/go.mod h1:3MWqzs2k2pnZO7PlBNJdR9r1Eck323LC65SJDUJH5zQ=
 github.com/abbeymart/mcresponse v0.9.4 h1:8xWbIUSUjft8E/9/rcBe+Hgv8ijGKiCLoyngzp4c4Fw=
@@ -35,3 +37,5 @@ github.com/mattn/go-sqlite3 v1.14.17 h1:mCRHCLDUBXgpKAqIKsaAaAsrAlbkeomtRFKXh2L6
 github.com/mattn/go-sqlite3 v1.14.17/go.mod h1:2eHXhiwb8IkHr+BDWZGa96P6+rkvnG63S2DGjv9HUNg=
 github.com/mattn/go-sqlite3 v1.14.22 h1:2gZY6PC6kBnID23Tichd1K+Z0oS6nE/XwU+Vz/5o4kU=
 github.com/mattn/go-sqlite3 v1.14.22/go.mod h1:Uh1q+B4BYcTPb+yiD3kU8Ct7aC0hY9fxUwlHK0RXw+Y=
+github.com/mattn/go-sqlite3 v1.14.24 h1:tpSp2G2KyMnnQu99ngJ47EIkWVmliIizyZBfPrBWDRM=
+github.com/mattn/go-sqlite3 v1.14.24/go.mod h1:Uh1q+B4BYcTPb+yiD3kU8Ct7aC0hY9fxUwlHK0RXw+Y=

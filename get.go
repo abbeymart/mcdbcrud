@@ -7,10 +7,11 @@ package mcdbcrud
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
+
 	"github.com/abbeymart/mccache"
 	"github.com/abbeymart/mcresponse"
 	"github.com/jmoiron/sqlx"
-	"strings"
 )
 
 // GetById method fetches/gets/reads record that met the specified record-id,

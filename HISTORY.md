@@ -1,5 +1,10 @@
 # Historical logs
 
+## Version 0.6.5
+
+- Release date: Oct 14, 2025
+- updated-mccache-to-v0.5.1-v0.6.5
+
 ## Version 0.6.4
 
 - Release date: Oct 16, 2024

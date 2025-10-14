@@ -572,7 +572,7 @@ func (crud *Crud) CheckUserAccess() mcresponse.ResponseMessage {
 	//	roleIds = []string{}
 	//	return mcresponse.GetResMessage("notFound", mcresponse.ResponseMessageOptions{
 	//		Message: fmt.Sprintf("User-role record not found or could not be processed: %v", urErr.Error()),
-	//		Value:   nil,
+	//		ItemValue:   nil,
 	//	})
 	//}
 

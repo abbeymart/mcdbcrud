@@ -6,8 +6,9 @@ package mcdbcrud
 
 import (
 	"fmt"
-	"github.com/abbeymart/mctest"
 	"testing"
+
+	"github.com/abbeymart/mctest"
 )
 
 func TestDelete(t *testing.T) {
@@ -35,7 +36,7 @@ func TestDelete(t *testing.T) {
 	}
 	crud := NewCrud(crudParams, CrudParamOptions)
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should prevent the delete of all table records and return removeError:",
 		TestFunc: func() {
 			crud.TableName = DeleteAllTable
@@ -45,7 +46,7 @@ func TestDelete(t *testing.T) {
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should delete record by Id and return success or notFound[delete-record-method]:",
 		TestFunc: func() {
 			crud.TableName = DeleteTable
@@ -59,7 +60,7 @@ func TestDelete(t *testing.T) {
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should delete records by Ids and return success or notFound[delete-record-method]:",
 		TestFunc: func() {
 			crud.TableName = DeleteTable
@@ -73,7 +74,7 @@ func TestDelete(t *testing.T) {
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should delete records by query-params and return success or notFound[delete-record-method]:",
 		TestFunc: func() {
 			crud.TableName = DeleteTable

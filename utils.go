@@ -9,12 +9,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/abbeymart/mcresponse"
-	"github.com/asaskevich/govalidator"
 	"math/rand"
 	"reflect"
 	"strings"
 	"time"
+
+	"github.com/abbeymart/mcresponse"
+	"github.com/asaskevich/govalidator"
 )
 
 type EmailUserNameType struct {

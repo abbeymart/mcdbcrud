@@ -7,8 +7,9 @@ package mcdbcrud
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/abbeymart/mctest"
 	"testing"
+
+	"github.com/abbeymart/mctest"
 )
 
 func TestGet(t *testing.T) {
@@ -36,7 +37,7 @@ func TestGet(t *testing.T) {
 	}
 	crud := NewCrud(crudParams, CrudParamOptions)
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should get records by Id and return success:",
 		TestFunc: func() {
 			crud.RecordIds = []string{GetAuditById}
@@ -58,7 +59,7 @@ func TestGet(t *testing.T) {
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should get records by Ids and return success:",
 		TestFunc: func() {
 			crud.TableName = GetTable
@@ -75,7 +76,7 @@ func TestGet(t *testing.T) {
 			mctest.AssertEquals(t, len(value.Records), recLen, fmt.Sprintf("get-result-count should be: %v", recLen))
 		},
 	})
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should get records by query-params and return success:",
 		TestFunc: func() {
 			crud.TableName = GetTable
@@ -92,7 +93,7 @@ func TestGet(t *testing.T) {
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should get all records and return success:",
 		TestFunc: func() {
 			crud.TableName = GetTable
@@ -106,7 +107,7 @@ func TestGet(t *testing.T) {
 			mctest.AssertEquals(t, len(value.Records) > 20, true, "get-result-count should be >= 10")
 		},
 	})
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should get all records by limit/skip(offset) and return success:",
 		TestFunc: func() {
 			crud.TableName = GetTable
@@ -123,7 +124,7 @@ func TestGet(t *testing.T) {
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "custom-query: should get records by Id and return success:",
 		TestFunc: func() {
 			selectFields, fieldErr := QueryFields(model)

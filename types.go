@@ -6,9 +6,10 @@ package mcdbcrud
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/abbeymart/mcresponse"
 	"github.com/jmoiron/sqlx"
-	"time"
 )
 
 type DbConnectionType *sqlx.DB

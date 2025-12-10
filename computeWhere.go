@@ -7,9 +7,10 @@ package mcdbcrud
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/asaskevich/govalidator"
 	"reflect"
 	"time"
+
+	"github.com/asaskevich/govalidator"
 )
 
 func whereErrMessage(errMsg string) WhereQueryResult {

@@ -7,10 +7,11 @@ package mcdbcrud
 import (
 	"errors"
 	"fmt"
-	"github.com/abbeymart/mcresponse"
-	"github.com/jmoiron/sqlx"
 	"strings"
 	"time"
+
+	"github.com/abbeymart/mcresponse"
+	"github.com/jmoiron/sqlx"
 )
 
 // AccessInfoType for CheckUserAccess method value (interface{}) response,

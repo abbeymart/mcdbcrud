@@ -9,10 +9,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/abbeymart/mcresponse"
-	"github.com/jmoiron/sqlx"
 	"strings"
 	"time"
+
+	"github.com/abbeymart/mcresponse"
+	"github.com/jmoiron/sqlx"
 )
 
 // LogParamX interfaces / types

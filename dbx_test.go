@@ -20,7 +20,7 @@ func TestDbx(t *testing.T) {
 		Filename: "testdb.db",
 	}
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should successfully connect to the PostgresDB",
 		TestFunc: func() {
 			dbc, err := myDb.OpenDbx()
@@ -31,7 +31,7 @@ func TestDbx(t *testing.T) {
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should successfully connect to SQLite3 database",
 		TestFunc: func() {
 			dbc2, err := sqliteDb.OpenDbx()

@@ -7,8 +7,9 @@ package mcdbcrud
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/asaskevich/govalidator"
 	"time"
+
+	"github.com/asaskevich/govalidator"
 )
 
 func errMessage(errMsg string) CreateQueryResult {

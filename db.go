@@ -8,9 +8,10 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"os"
+
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
-	"os"
 )
 
 var (

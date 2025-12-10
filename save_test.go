@@ -6,8 +6,9 @@ package mcdbcrud
 
 import (
 	"fmt"
-	"github.com/abbeymart/mctest"
 	"testing"
+
+	"github.com/abbeymart/mctest"
 )
 
 func TestSave(t *testing.T) {
@@ -42,21 +43,21 @@ func TestSave(t *testing.T) {
 	}
 	crud := NewCrud(crudParams, CrudParamOptions)
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should connect to the Audit-DB and return an instance object:",
 		TestFunc: func() {
 			mctest.AssertEquals(t, err, nil, "error-response should be: nil")
 			mctest.AssertEquals(t, mcLog, mcLogResult, "db-connection instance should be: "+mcLogResult.String())
 		},
 	})
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should connect to the CRUD-DB and return an instance object:",
 		TestFunc: func() {
 			mctest.AssertEquals(t, crud != nil, true, "crud should be instance of mccrud.Crud")
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should create two new records and return success:",
 		TestFunc: func() {
 			crud.TableName = UpdateTable
@@ -73,7 +74,7 @@ func TestSave(t *testing.T) {
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should update two existing records and return success:",
 		TestFunc: func() {
 			crud.TableName = UpdateTable
@@ -90,7 +91,7 @@ func TestSave(t *testing.T) {
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should update a record by Id and return success:",
 		TestFunc: func() {
 			crud.TableName = UpdateTable
@@ -107,7 +108,7 @@ func TestSave(t *testing.T) {
 		},
 	})
 
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should update records by Ids and return success:",
 		TestFunc: func() {
 			crud.TableName = UpdateTable
@@ -124,7 +125,7 @@ func TestSave(t *testing.T) {
 			mctest.AssertEquals(t, len(value.RecordIds), idLen, fmt.Sprintf("update-by-ids-recordIds-length should be: %v", idLen))
 		},
 	})
-	mctest.McTest(mctest.OptionValue{
+	mctest.McTest(mctest.ParamsType{
 		Name: "should update records by query-params and return success:",
 		TestFunc: func() {
 			crud.TableName = UpdateTable

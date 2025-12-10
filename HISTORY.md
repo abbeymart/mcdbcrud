@@ -1,5 +1,10 @@
 # Historical logs
 
+## Version 0.6.6
+
+- Release date: Dec 09, 2025
+- updated-mccache0.5.2-mctest0.7.1-mcresponse0.9.7-v0.6.6
+
 ## Version 0.6.5
 
 - Release date: Oct 14, 2025

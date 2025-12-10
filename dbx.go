@@ -7,10 +7,11 @@ package mcdbcrud
 import (
 	"errors"
 	"fmt"
+	"os"
+
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
-	"os"
 )
 
 var (

@@ -6,9 +6,10 @@ package mcdbcrud
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/abbeymart/mccache"
 	"github.com/abbeymart/mcresponse"
-	"log"
 )
 
 // Create method creates new record(s)

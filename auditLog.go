@@ -9,9 +9,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/abbeymart/mcresponse"
 	"strings"
 	"time"
+
+	"github.com/abbeymart/mcresponse"
 )
 
 // LogParam interfaces / types

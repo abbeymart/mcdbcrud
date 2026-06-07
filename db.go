@@ -1,4 +1,4 @@
-// @Author: abbeymart | Abi Akindele | @Created: 2020-12-01 | @Updated: 2020-12-01
+// @Author: abbeymart | Abi Akindele | @Created: 2020-12-01 | @Updated: 2020-12-01, 2026-06-06
 // @Company: mConnect.biz | @License: MIT
 // @Description: mcdb - db connection for PostgresSQL, MySQL, SQLite3...
 
@@ -15,8 +15,8 @@ import (
 )
 
 var (
-	db  *sql.DB
-	err error
+	db    *sql.DB
+	dbErr error
 )
 
 func (dbConfig DbConfig) OpenDb() (*sql.DB, error) {
@@ -37,9 +37,9 @@ func (dbConfig DbConfig) OpenDb() (*sql.DB, error) {
 		if os.Getenv("DATABASE_URL") != "" && dbConfig.PermitDBUrl {
 			connectionString = os.Getenv("DATABASE_URL")
 		}
-		db, err = sql.Open(dbConfig.DbType, connectionString)
-		if err != nil {
-			errMsg := fmt.Sprintf("Database Connection Error: %v", err.Error())
+		db, dbErr = sql.Open(dbConfig.DbType, connectionString)
+		if dbErr != nil {
+			errMsg := fmt.Sprintf("Database Connection Error: %v", dbErr.Error())
 			return nil, errors.New(errMsg)
 		}
 		return db, nil
@@ -54,16 +54,16 @@ func (dbConfig DbConfig) OpenDb() (*sql.DB, error) {
 		if os.Getenv("DATABASE_URL") != "" && dbConfig.PermitDBUrl {
 			connectionString = os.Getenv("DATABASE_URL")
 		}
-		db, err = sql.Open(dbConfig.DbType, connectionString)
-		if err != nil {
-			errMsg := fmt.Sprintf("Database Connection Error: %v", err.Error())
+		db, dbErr = sql.Open(dbConfig.DbType, connectionString)
+		if dbErr != nil {
+			errMsg := fmt.Sprintf("Database Connection Error: %v", dbErr.Error())
 			return nil, errors.New(errMsg)
 		}
 		return db, nil
 	case "sqlite3":
-		db, err = sql.Open(dbConfig.DbType, dbConfig.Filename)
-		if err != nil {
-			errMsg := fmt.Sprintf("Database Connection Error: %v", err.Error())
+		db, dbErr = sql.Open(dbConfig.DbType, dbConfig.Filename)
+		if dbErr != nil {
+			errMsg := fmt.Sprintf("Database Connection Error: %v", dbErr.Error())
 			return nil, errors.New(errMsg)
 		}
 		return db, nil
@@ -74,10 +74,10 @@ func (dbConfig DbConfig) OpenDb() (*sql.DB, error) {
 
 func (dbConfig DbConfig) CloseDb() {
 	if db != nil {
-		err = db.Close()
-		if err != nil {
+		dbErr = db.Close()
+		if dbErr != nil {
 			// log error to the console
-			fmt.Println(err)
+			fmt.Println(dbErr)
 		}
 	}
 }

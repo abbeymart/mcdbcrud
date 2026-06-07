@@ -36,9 +36,9 @@ func (dbConfig DbConfig) OpenDbx() (*sqlx.DB, error) {
 		if os.Getenv("DATABASE_URL") != "" && dbConfig.PermitDBUrl {
 			connectionString = os.Getenv("DATABASE_URL")
 		}
-		dbx, err = sqlx.Open(dbConfig.DbType, connectionString)
-		if err != nil {
-			errMsg := fmt.Sprintf("Database Connection Error: %v", err.Error())
+		dbx, dbErr = sqlx.Open(dbConfig.DbType, connectionString)
+		if dbErr != nil {
+			errMsg := fmt.Sprintf("Database Connection Error: %v", dbErr.Error())
 			return nil, errors.New(errMsg)
 		}
 		return dbx, nil
@@ -53,16 +53,16 @@ func (dbConfig DbConfig) OpenDbx() (*sqlx.DB, error) {
 		if os.Getenv("DATABASE_URL") != "" && dbConfig.PermitDBUrl {
 			connectionString = os.Getenv("DATABASE_URL")
 		}
-		dbx, err = sqlx.Open(dbConfig.DbType, connectionString)
-		if err != nil {
-			errMsg := fmt.Sprintf("Database Connection Error: %v", err.Error())
+		dbx, dbErr = sqlx.Open(dbConfig.DbType, connectionString)
+		if dbErr != nil {
+			errMsg := fmt.Sprintf("Database Connection Error: %v", dbErr.Error())
 			return nil, errors.New(errMsg)
 		}
 		return dbx, nil
 	case "sqlite3":
-		dbx, err = sqlx.Open(dbConfig.DbType, dbConfig.Filename)
-		if err != nil {
-			errMsg := fmt.Sprintf("Database Connection Error: %v", err.Error())
+		dbx, dbErr = sqlx.Open(dbConfig.DbType, dbConfig.Filename)
+		if dbErr != nil {
+			errMsg := fmt.Sprintf("Database Connection Error: %v", dbErr.Error())
 			return nil, errors.New(errMsg)
 		}
 		return dbx, nil
@@ -73,10 +73,10 @@ func (dbConfig DbConfig) OpenDbx() (*sqlx.DB, error) {
 
 func (dbConfig DbConfig) CloseDbx() {
 	if dbx != nil {
-		err = dbx.Close()
-		if err != nil {
+		dbErr = dbx.Close()
+		if dbErr != nil {
 			// log error to the console
-			fmt.Println(err)
+			fmt.Println(dbErr)
 		}
 	}
 }

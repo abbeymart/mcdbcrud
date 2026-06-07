@@ -1,4 +1,4 @@
-// @Author: abbeymart | Abi Akindele | @Created: 2020-12-04 | @Updated: 2020-12-04
+// @Author: abbeymart | Abi Akindele | @Created: 2020-12-04 | @Updated: 2020-12-04, 2026-06-06
 // @Company: mConnect.biz | @License: MIT
 // @Description: db testing
 
@@ -20,26 +20,30 @@ func TestDbx(t *testing.T) {
 		Filename: "testdb.db",
 	}
 
-	mctest.McTest(mctest.ParamsType{
-		Name: "should successfully connect to the PostgresDB",
-		TestFunc: func() {
-			dbc, err := myDb.OpenDbx()
-			fmt.Printf("pg-dbc: %v\n", dbc)
-			defer myDb.CloseDbx()
-			fmt.Println("*****************************************")
-			mctest.AssertEquals(t, err, nil, "response-code should be: nil")
-		},
-	})
+	var results []mctest.UnitTestResult
 
-	mctest.McTest(mctest.ParamsType{
-		Name: "should successfully connect to SQLite3 database",
-		TestFunc: func() {
-			dbc2, err := sqliteDb.OpenDbx()
-			fmt.Printf("sqlite-dbc: %v\n", dbc2)
-			defer sqliteDb.CloseDbx()
-			mctest.AssertEquals(t, err, nil, "response-code should be: nil")
-		},
+	test1 := mctest.NewTest(mctest.ParamsType{
+		Name: "should successfully connect to the PostgresDB [dbx]",
 	})
+	test1.SetTestFunction(func() {
+		_, err := myDb.OpenDbx()
+		defer myDb.CloseDbx()
+		fmt.Println("*****************************************")
+		test1.AssertEquals(err, nil, "response-code should be: nil")
+	})
+	test1Result := test1.RunTest()
+	results = append(results, test1Result)
 
-	mctest.PostTestResult()
+	test2 := mctest.NewTest(mctest.ParamsType{
+		Name: "should successfully connect to SQLite3 database [dbx]",
+	})
+	test2.SetTestFunction(func() {
+		_, err := sqliteDb.OpenDbx()
+		defer sqliteDb.CloseDbx()
+		test2.AssertEquals(err, nil, "response-code should be: nil")
+	})
+	test2Result := test2.RunTest()
+	results = append(results, test2Result)
+
+	mctest.TestResult(results)
 }

@@ -1,4 +1,4 @@
-// @Author: abbeymart | Abi Akindele | @Created: 2020-12-14 | @Updated: 2020-12-14
+// @Author: abbeymart | Abi Akindele | @Created: 2020-12-14 | @Updated: 2020-12-14, 2026-06-07
 // @Company: mConnect.biz | @License: MIT
 // @Description: mccrud create & update records test-cases
 
@@ -43,105 +43,123 @@ func TestSave(t *testing.T) {
 	}
 	crud := NewCrud(crudParams, CrudParamOptions)
 
-	mctest.McTest(mctest.ParamsType{
+	var results []mctest.UnitTestResult
+
+	test1 := mctest.NewTest(mctest.ParamsType{
 		Name: "should connect to the Audit-DB and return an instance object:",
-		TestFunc: func() {
-			mctest.AssertEquals(t, err, nil, "error-response should be: nil")
-			mctest.AssertEquals(t, mcLog, mcLogResult, "db-connection instance should be: "+mcLogResult.String())
-		},
 	})
-	mctest.McTest(mctest.ParamsType{
+	test1.SetTestFunction(func() {
+		test1.AssertEquals(err, nil, "error-response should be: nil")
+		test1.AssertEquals(mcLog, mcLogResult, "db-connection instance should be: "+mcLogResult.String())
+	})
+	test1Result := test1.RunTest()
+	results = append(results, test1Result)
+
+	test2 := mctest.NewTest(mctest.ParamsType{
 		Name: "should connect to the CRUD-DB and return an instance object:",
-		TestFunc: func() {
-			mctest.AssertEquals(t, crud != nil, true, "crud should be instance of mccrud.Crud")
-		},
 	})
+	test2.SetTestFunction(func() {
+		test2.AssertEquals(crud != nil, true, "crud should be instance of mccrud.Crud")
+	})
+	test2Result := test2.RunTest()
+	results = append(results, test2Result)
 
-	mctest.McTest(mctest.ParamsType{
+	test3 := mctest.NewTest(mctest.ParamsType{
 		Name: "should create two new records and return success:",
-		TestFunc: func() {
-			crud.TableName = UpdateTable
-			crud.ActionParams = AuditCreateActionParams
-			crud.RecordIds = []string{}
-			crud.QueryParams = QueryParamType{}
-			recLen := len(crud.ActionParams)
-			res := crud.SaveRecord()
-			fmt.Printf("creates: %v \n", res)
-			value, _ := res.Value.(CrudResultType)
-			mctest.AssertEquals(t, res.Code, "success", "create should return code: success")
-			mctest.AssertEquals(t, value.RecordsCount, recLen, fmt.Sprintf("save-create-count should be: %v", recLen))
-			mctest.AssertEquals(t, len(value.RecordIds), recLen, fmt.Sprintf("save-create-recordIds-length should be: %v", recLen))
-		},
 	})
+	test3.SetTestFunction(func() {
+		crud.TableName = UpdateTable
+		crud.ActionParams = AuditCreateActionParams
+		crud.RecordIds = []string{}
+		crud.QueryParams = QueryParamType{}
+		recLen := len(crud.ActionParams)
+		res := crud.SaveRecord()
+		fmt.Printf("creates: %v \n", res)
+		value, _ := res.Value.(CrudResultType)
+		test3.AssertEquals(res.Code, "success", "create should return code: success")
+		test3.AssertEquals(value.RecordsCount, recLen, fmt.Sprintf("save-create-count should be: %v", recLen))
+		test3.AssertEquals(len(value.RecordIds), recLen, fmt.Sprintf("save-create-recordIds-length should be: %v", recLen))
+	})
+	test3Result := test3.RunTest()
+	results = append(results, test3Result)
 
-	mctest.McTest(mctest.ParamsType{
+	test4 := mctest.NewTest(mctest.ParamsType{
 		Name: "should update two existing records and return success:",
-		TestFunc: func() {
-			crud.TableName = UpdateTable
-			crud.ActionParams = AuditUpdateActionParams
-			crud.RecordIds = []string{}
-			crud.QueryParams = QueryParamType{}
-			recLen := len(crud.ActionParams)
-			res := crud.SaveRecord()
-			fmt.Printf("updates: %v \n", res)
-			value, _ := res.Value.(CrudResultType)
-			mctest.AssertEquals(t, res.Code, "success", "update should return code: success")
-			mctest.AssertEquals(t, value.RecordsCount, recLen, fmt.Sprintf("save-create-count should be: %v", recLen))
-			mctest.AssertEquals(t, len(value.RecordIds), recLen, fmt.Sprintf("save-create-recordIds-length should be: %v", recLen))
-		},
 	})
+	test4.SetTestFunction(func() {
+		crud.TableName = UpdateTable
+		crud.ActionParams = AuditUpdateActionParams
+		crud.RecordIds = []string{}
+		crud.QueryParams = QueryParamType{}
+		recLen := len(crud.ActionParams)
+		res := crud.SaveRecord()
+		fmt.Printf("updates: %v \n", res)
+		value, _ := res.Value.(CrudResultType)
+		test4.AssertEquals(res.Code, "success", "update should return code: success")
+		test4.AssertEquals(value.RecordsCount, recLen, fmt.Sprintf("save-create-count should be: %v", recLen))
+		test4.AssertEquals(len(value.RecordIds), recLen, fmt.Sprintf("save-create-recordIds-length should be: %v", recLen))
+	})
+	test4Result := test4.RunTest()
+	results = append(results, test4Result)
 
-	mctest.McTest(mctest.ParamsType{
+	test5 := mctest.NewTest(mctest.ParamsType{
 		Name: "should update a record by Id and return success:",
-		TestFunc: func() {
-			crud.TableName = UpdateTable
-			crud.ActionParams = ActionParamsType{AuditUpdateRecordById}
-			crud.RecordIds = []string{UpdateAuditById}
-			crud.QueryParams = QueryParamType{}
-			idLen := len(crud.RecordIds)
-			res := crud.SaveRecord()
-			fmt.Printf("update-by-ids: %v \n", res)
-			value, _ := res.Value.(CrudResultType)
-			mctest.AssertEquals(t, res.Code, "success", "update-by-id should return code: success")
-			mctest.AssertEquals(t, value.RecordsCount, idLen, fmt.Sprintf("update-by-id-count should be: %v", idLen))
-			mctest.AssertEquals(t, len(value.RecordIds), idLen, fmt.Sprintf("update-by-id-recordIds-length should be: %v", idLen))
-		},
 	})
+	test5.SetTestFunction(func() {
+		crud.TableName = UpdateTable
+		crud.ActionParams = ActionParamsType{AuditUpdateRecordById}
+		crud.RecordIds = []string{UpdateAuditById}
+		crud.QueryParams = QueryParamType{}
+		idLen := len(crud.RecordIds)
+		res := crud.SaveRecord()
+		fmt.Printf("update-by-ids: %v \n", res)
+		value, _ := res.Value.(CrudResultType)
+		test5.AssertEquals(res.Code, "success", "update-by-id should return code: success")
+		test5.AssertEquals(value.RecordsCount, idLen, fmt.Sprintf("update-by-id-count should be: %v", idLen))
+		test5.AssertEquals(len(value.RecordIds), idLen, fmt.Sprintf("update-by-id-recordIds-length should be: %v", idLen))
+	})
+	test5Result := test5.RunTest()
+	results = append(results, test5Result)
 
-	mctest.McTest(mctest.ParamsType{
+	test6 := mctest.NewTest(mctest.ParamsType{
 		Name: "should update records by Ids and return success:",
-		TestFunc: func() {
-			crud.TableName = UpdateTable
-			crud.ActionParams = ActionParamsType{AuditUpdateRecordById}
-			crud.RecordIds = UpdateAuditByIds
-			crud.QueryParams = QueryParamType{}
-			idLen := len(crud.RecordIds)
-			res := crud.SaveRecord()
-			fmt.Printf("update-by-ids: %v \n", res)
-			mctest.AssertEquals(t, res.Code, "success", "update-by-id should return code: success")
-			value, _ := res.Value.(CrudResultType)
-			mctest.AssertEquals(t, res.Code, "success", "update-by-ids should return code: success")
-			mctest.AssertEquals(t, value.RecordsCount, idLen, fmt.Sprintf("update-by-ids-count should be: %v", idLen))
-			mctest.AssertEquals(t, len(value.RecordIds), idLen, fmt.Sprintf("update-by-ids-recordIds-length should be: %v", idLen))
-		},
 	})
-	mctest.McTest(mctest.ParamsType{
-		Name: "should update records by query-params and return success:",
-		TestFunc: func() {
-			crud.TableName = UpdateTable
-			crud.ActionParams = ActionParamsType{AuditUpdateRecordByParam}
-			crud.RecordIds = []string{}
-			crud.QueryParams = UpdateAuditByParams
-			recLen := 0
-			res := crud.SaveRecord()
-			fmt.Printf("update-by-params: %v \n", res)
-			value, _ := res.Value.(CrudResultType)
-			mctest.AssertEquals(t, res.Code, "success", "update-by-params should return code: success")
-			mctest.AssertEquals(t, value.RecordsCount >= recLen, true, fmt.Sprintf("update-by-params-count should be >: %v", recLen))
-			mctest.AssertEquals(t, len(value.RecordIds) >= recLen, true, fmt.Sprintf("update-by-params-recordIds-length should be > : %v", recLen))
-		},
+	test6.SetTestFunction(func() {
+		crud.TableName = UpdateTable
+		crud.ActionParams = ActionParamsType{AuditUpdateRecordById}
+		crud.RecordIds = UpdateAuditByIds
+		crud.QueryParams = QueryParamType{}
+		idLen := len(crud.RecordIds)
+		res := crud.SaveRecord()
+		fmt.Printf("update-by-ids: %v \n", res)
+		test6.AssertEquals(res.Code, "success", "update-by-id should return code: success")
+		value, _ := res.Value.(CrudResultType)
+		test6.AssertEquals(res.Code, "success", "update-by-ids should return code: success")
+		test6.AssertEquals(value.RecordsCount, idLen, fmt.Sprintf("update-by-ids-count should be: %v", idLen))
+		test6.AssertEquals(len(value.RecordIds), idLen, fmt.Sprintf("update-by-ids-recordIds-length should be: %v", idLen))
 	})
+	test6Result := test6.RunTest()
+	results = append(results, test6Result)
 
-	mctest.PostTestResult()
+	test7 := mctest.NewTest(mctest.ParamsType{
+		Name: "should update records by query-params and return success:",
+	})
+	test7.SetTestFunction(func() {
+		crud.TableName = UpdateTable
+		crud.ActionParams = ActionParamsType{AuditUpdateRecordByParam}
+		crud.RecordIds = []string{}
+		crud.QueryParams = UpdateAuditByParams
+		recLen := 0
+		res := crud.SaveRecord()
+		fmt.Printf("update-by-params: %v \n", res)
+		value, _ := res.Value.(CrudResultType)
+		test7.AssertEquals(res.Code, "success", "update-by-params should return code: success")
+		test7.AssertEquals(value.RecordsCount >= recLen, true, fmt.Sprintf("update-by-params-count should be >: %v", recLen))
+		test7.AssertEquals(len(value.RecordIds) >= recLen, true, fmt.Sprintf("update-by-params-recordIds-length should be > : %v", recLen))
+	})
+	test7Result := test7.RunTest()
+	results = append(results, test7Result)
+
+	mctest.TestResult(results)
 
 }
